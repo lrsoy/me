@@ -13,8 +13,12 @@ import Icons from 'unplugin-icons/vite'
 import SVG from 'vite-svg-loader'
 import Markdown from 'vite-plugin-vue-markdown'
 import LinkAttributes from 'markdown-it-link-attributes'
+import Shiki from 'markdown-it-shiki'
+import anchor from 'markdown-it-anchor'
+import { slugify } from './scripts/slugify'
 
 // 自定义插件
+import codePlugin from './src/plugins/MarkDown/codePlugin'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -82,6 +86,17 @@ export default defineConfig({
             rel: 'noopener',
           },
         })
+        md.use(anchor, {
+          slugify,
+          permalink: anchor.permalink.linkInsideHeader({
+            symbol: '#',
+            renderAttrs: () => ({ 'aria-hidden': 'true' }),
+          }),
+        })
+        md.use(Shiki, {
+          theme: 'dark-plus'
+        })
+        md.use(codePlugin)
       }
     })
 
