@@ -1,4 +1,8 @@
-这事一段测试文字
+---
+title: 关于单元测试的一些需要简单了解的内容
+date: 2023-04-29
+---
+<!-- 这事一段测试文字
 
 ```js {1,5,13}
 import { defaultTheme } from 'vuepress'
@@ -14,4 +18,4 @@ export default {
     ],
   }),
 }
-```
+``` -->

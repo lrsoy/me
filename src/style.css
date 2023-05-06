@@ -10,6 +10,9 @@
   --code-hl-bg-color: rgba(0, 0, 0, 0.66);
   --code-ln-wrapper-width: 3.5rem;
 }
+body {
+  background-color: #0e1225;
+}
 
 code[class*='language-'],
 pre[class*='language-'] {
