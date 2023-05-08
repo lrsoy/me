@@ -1,0 +1,14 @@
+.prose {
+  margin: 0 auto;
+  max-width: 680px;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.content_banner .load_cover {
+  position: absolute; /* 设置 img 标签相对于 div 定位 */
+  width: 100%; /* 设置 img 标签宽度为 100% */
+  height: 100%; /* 设置 img 标签高度为 100% */
+  object-fit: cover; /* 使用 object-fit 属性保持图片不变形，并将其充满整个容器 */
+  object-position: center center; /* 如果需要可以设置图片在容器中的位置 */
+}

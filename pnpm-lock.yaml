@@ -148,8 +148,8 @@ devDependencies:
     specifier: ^0.14.7
     version: registry.npmmirror.com/vite-plugin-pwa@0.14.7(vite@4.3.4)(workbox-build@6.5.4)(workbox-window@6.5.4)
   vite-plugin-vue-markdown:
-    specifier: ^0.23.0
-    version: registry.npmmirror.com/vite-plugin-vue-markdown@0.23.0(rollup@2.79.1)(vite@4.3.4)
+    specifier: ^0.23.4
+    version: registry.npmmirror.com/vite-plugin-vue-markdown@0.23.4(rollup@2.79.1)(vite@4.3.4)
   vite-plugin-yaml:
     specifier: ^1.0.5
     version: registry.npmmirror.com/vite-plugin-yaml@1.0.5(vite@4.3.4)
@@ -8677,11 +8677,11 @@ packages:
       - supports-color
     dev: true
 
-  registry.npmmirror.com/vite-plugin-vue-markdown@0.23.0(rollup@2.79.1)(vite@4.3.4):
-    resolution: {integrity: sha512-/XG8pH0xiPeuU9+IfnWTRM57ETga3ZfxB7/tHEXy7HuCUTwCGTtbnvHMJEa6njJus8n3d8oyZHtzo8wh+bVV2g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite-plugin-vue-markdown/-/vite-plugin-vue-markdown-0.23.0.tgz}
-    id: registry.npmmirror.com/vite-plugin-vue-markdown/0.23.0
+  registry.npmmirror.com/vite-plugin-vue-markdown@0.23.4(rollup@2.79.1)(vite@4.3.4):
+    resolution: {integrity: sha512-aGB2baimtxRqLyvyuVzdykSNkyMa8KciwOzF52QxiaaOoW1Kznto1ypz1NG5J7tFHWt/RR5YO51CiADtr344qQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite-plugin-vue-markdown/-/vite-plugin-vue-markdown-0.23.4.tgz}
+    id: registry.npmmirror.com/vite-plugin-vue-markdown/0.23.4
     name: vite-plugin-vue-markdown
-    version: 0.23.0
+    version: 0.23.4
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0-0 || ^4.0.0
     dependencies:

@@ -16,7 +16,8 @@ import LinkAttributes from 'markdown-it-link-attributes'
 import Shiki from 'markdown-it-shiki'
 import anchor from 'markdown-it-anchor'
 import { slugify } from './scripts/slugify'
-
+// @ts-expect-error missing types
+import TOC from 'markdown-it-table-of-contents'
 // 自定义插件
 import codePlugin from './src/plugins/MarkDown/codePlugin'
 
@@ -73,7 +74,9 @@ export default defineConfig({
     }),
     Markdown({
       wrapperComponent: 'post',
-      wrapperClasses: 'prose',
+      wrapperClasses: (id, code) => {
+        return code.includes('@layout-full-width') ? 'layout-full-width' : 'prose  slide-enter-content'
+      },
       headEnabled: true,
       markdownItOptions: {
         quotes: '""\'\'',
@@ -97,6 +100,10 @@ export default defineConfig({
           theme: 'dark-plus'
         })
         md.use(codePlugin)
+        md.use(TOC, {
+          includeLevel: [1, 2, 3, 4, 5, 6],
+          slugify,
+        })
       }
     })
 

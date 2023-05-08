@@ -11,7 +11,7 @@
   --code-ln-wrapper-width: 3.5rem;
 }
 body {
-  background-color: #0e1225;
+  /* background-color: #0e1225; */
 }
 
 code[class*='language-'],
@@ -129,8 +129,8 @@ pre[class*='language-'] {
   color: #3eaf7c;
 }
 
-.prose pre,
-.prose pre[class*='language-'] {
+pre,
+pre[class*='language-'] {
   line-height: 1.5;
   padding: 1.3rem 1.5rem;
   margin: 0.85rem 0;
@@ -138,8 +138,8 @@ pre[class*='language-'] {
   overflow: auto;
 }
 
-.prose pre code,
-.prose pre[class*='language-'] code {
+pre code,
+pre[class*='language-'] code {
   color: #fff;
   padding: 0;
   background-color: transparent;
@@ -149,7 +149,7 @@ pre[class*='language-'] {
   -moz-osx-font-smoothing: auto;
 }
 
-.prose .line-number {
+.prose,.layout-full-width .line-number {
   font-family: var(--font-family-code);
 }
 

@@ -1,6 +1,8 @@
+import './styles/index.css'
 import './styles/markdown.css'
 import '@unocss/reset/tailwind.css'
 import 'uno.css'
+import './styles/post.css'
 
 import autoRoutes from 'pages-generated'
 import NProgress from 'nprogress'

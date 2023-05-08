@@ -8,11 +8,11 @@
       <img src="/book.svg" alt="" class="w-10 h-10">
     </router-link>
     <!-- [rgba(40,44,52,.5)] -->
-    <nav class="w-full p-4 box-border flex justify-end gap-5 text-[silver] bg-black">
+    <nav class="w-full p-4 box-border flex justify-end gap-5">
       <router-link to="/" title="Blog">
         <span>/</span>
       </router-link>
-      <router-link to="/" title="Blog">
+      <router-link to="/homes" title="Blog">
         <span>知识汇总</span>
       </router-link>
       <a href="https://www.instagram.com/lrsoy_/" target="_blank" title="Instagram">

@@ -60,7 +60,7 @@
     "vite-plugin-inspect": "^0.7.24",
     "vite-plugin-pages": "^0.29.0",
     "vite-plugin-pwa": "^0.14.7",
-    "vite-plugin-vue-markdown": "^0.23.0",
+    "vite-plugin-vue-markdown": "^0.23.4",
     "vite-plugin-yaml": "^1.0.5",
     "vite-ssg": "^0.22.2",
     "vite-svg-loader": "^4.0.0",

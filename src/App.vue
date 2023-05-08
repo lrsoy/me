@@ -5,11 +5,13 @@
 
 </script>
 <template>
-  <ClientOnly>
+  <!-- <ClientOnly>
     <Plum />
-  </ClientOnly>
+  </ClientOnly> -->
   <NavBar />
-  <router-view />
+  <main>
+    <router-view />
+  </main>
 </template>
 
 <style  lang="scss"></style>
