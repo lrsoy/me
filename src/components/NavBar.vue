@@ -15,6 +15,9 @@
       <router-link to="/homes" title="Blog">
         <span>知识汇总</span>
       </router-link>
+      <router-link to="/about" title="Blog">
+        <span>about</span>
+      </router-link>
       <a href="https://www.instagram.com/lrsoy_/" target="_blank" title="Instagram">
         <Ins />
       </a>

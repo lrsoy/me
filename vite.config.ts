@@ -16,8 +16,10 @@ import LinkAttributes from 'markdown-it-link-attributes'
 import Shiki from 'markdown-it-shiki'
 import anchor from 'markdown-it-anchor'
 import { slugify } from './scripts/slugify'
+import emoji from 'markdown-it-emoji'
 // @ts-expect-error missing types
 import TOC from 'markdown-it-table-of-contents'
+
 // 自定义插件
 import codePlugin from './src/plugins/MarkDown/codePlugin'
 
@@ -104,6 +106,7 @@ export default defineConfig({
           includeLevel: [1, 2, 3, 4, 5, 6],
           slugify,
         })
+        md.use(emoji)
       }
     })
 

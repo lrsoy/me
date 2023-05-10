@@ -75,13 +75,20 @@ const codePlugin: PluginWithOptions<CodePluginOptions> = (md, { highlightLines =
     result = `<div class="${languageClass} ext-${language.ext}${useLineNumbers ? ' line-numbers-mode' : ''}">${result}</div>`;
     return result;
   };
+
   if (vPreInline) {
     const rawInlineCodeRule = md.renderer.rules.code_inline;
     if (rawInlineCodeRule) {
       md.renderer.rules.code_inline = (tokens, idx, options, env, slf) => {
-        const result = rawInlineCodeRule(tokens, idx, options, env, slf);
-        return `<code v-pre${result.slice('<code'.length)}`;
+        const token = tokens[idx];
+        const lang = token.info ? md.utils.escapeHtml(token.info).trim() : '';
+        const code = md.utils.escapeHtml(token.content);
+        return `<code class="${options.langPrefix}${lang}">${code}</code>`;
       };
+      // md.renderer.rules.code_inline = (tokens, idx, options, env, slf) => {
+      //   const result = rawInlineCodeRule(tokens, idx, options, env, slf);
+      //   return `<code v-pre${result.slice('<code'.length)}`;
+      // };
     }
   }
 };
