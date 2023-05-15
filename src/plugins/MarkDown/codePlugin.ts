@@ -92,4 +92,5 @@ const codePlugin: PluginWithOptions<CodePluginOptions> = (md, { highlightLines =
     }
   }
 };
+
 export default codePlugin
