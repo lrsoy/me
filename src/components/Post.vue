@@ -10,7 +10,6 @@ const { frontmatter } = defineProps({
   },
 })
 
-console.log(frontmatter);
 
 const router = useRouter()
 const content = ref<HTMLDivElement>()
@@ -61,6 +60,11 @@ onMounted(() => {
 
   navigate()
   setTimeout(navigate, 500)
+
+})
+
+nextTick(() => {
+
 })
 
 const titleMouseover = () => {
@@ -68,6 +72,7 @@ const titleMouseover = () => {
 }
 const titleMouseout = () => {
 }
+
 
 </script>
 <template>
@@ -111,7 +116,7 @@ const titleMouseout = () => {
         </p>
       </div>
     </template>
-    <article ref="content">
+    <article ref="content" id="article_content">
       <slot />
     </article>
   </div>

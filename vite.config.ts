@@ -22,6 +22,7 @@ import TOC from 'markdown-it-table-of-contents'
 
 // 自定义插件
 import codePlugin from './src/plugins/MarkDown/codePlugin'
+import customTocPlugin from './src/plugins/TOC/customTocPlugin'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -102,7 +103,7 @@ export default defineConfig({
           theme: 'dark-plus'
         })
         md.use(codePlugin)
-        md.use(TOC, {
+        md.use(customTocPlugin, {
           includeLevel: [1, 2, 3, 4, 5, 6],
           slugify,
         })
