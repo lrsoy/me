@@ -13,7 +13,7 @@
   object-position: center center; /* 如果需要可以设置图片在容器中的位置 */
 }
 
-.content_banner .view_info {
+.view_info {
   width: 100%;
   height: 90px;
   position: absolute;
@@ -22,7 +22,7 @@
   z-index: 15;
 }
 
-.content_banner .view_info .vi_con {
+.view_info .vi_con {
   width: 680px;
   padding: 0 0 10px 150px;
   margin: 0 auto;
@@ -34,7 +34,7 @@
   box-sizing: border-box;
 }
 
-.content_banner .view_info .vi_con h1 {
+ .view_info .vi_con h1 {
   width: 100%;
   height: 70px;
   font-size: 26px;
@@ -45,7 +45,7 @@
   
 }
 
-.content_banner .view_info .vi_con .subtitle {
+ .view_info .vi_con .subtitle {
   width: 100%;
   font-size: 12px;
   font-weight: 400;
