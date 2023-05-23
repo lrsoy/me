@@ -1,6 +1,5 @@
 .prose {
-  margin: 0 auto;
-  max-width: 680px;
+  width: 680px;
   font-size: 1rem;
   line-height: 1.75;
 }
@@ -23,7 +22,7 @@
 }
 
 .view_info .vi_con {
-  width: 680px;
+  width: 1000px;
   padding: 0 0 10px 150px;
   margin: 0 auto;
   position: relative;
@@ -513,7 +512,7 @@
   margin-bottom: 0;
 }
 
-.table-of-contents {
+/* .table-of-contents {
   position: fixed;
   font-size: 0.8em;
   top: 584px;
@@ -549,4 +548,4 @@
 
 .table-of-contents ul li a:hover {
   text-decoration:underline ;
-}
+} */

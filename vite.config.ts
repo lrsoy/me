@@ -92,6 +92,7 @@ export default defineConfig({
             rel: 'noopener',
           },
         })
+        md.use(emoji)
         md.use(anchor, {
           slugify,
           permalink: anchor.permalink.linkInsideHeader({
@@ -107,7 +108,6 @@ export default defineConfig({
           includeLevel: [1, 2, 3, 4, 5, 6],
           slugify,
         })
-        md.use(emoji)
       }
     })
 

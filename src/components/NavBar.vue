@@ -1,13 +1,15 @@
 <!-- NavBar -->
 
 <script setup lang="ts">
+import type { Frontmatter } from '~/types'
+import { ComputedRef } from 'vue'
 import dayjs from 'dayjs'
 const route = useRoute()
-const metaData = computed(() => route.meta?.frontmatter)
+const metaData: ComputedRef<Frontmatter> = computed(() => route.meta?.frontmatter as Frontmatter)
 
 </script>
 <template>
-  <header>
+  <header class="mb-[90px]">
     <TransitionGroup name="fade" tag="div" class="bk-img">
       <div key="img1" v-if="route.path === '/'" class="header-img1"></div>
       <div key="img2" v-else-if="route.path === '/homes'" class="header-img2"></div>
@@ -37,44 +39,64 @@ const metaData = computed(() => route.meta?.frontmatter)
       </div>
     </div>
     <div class="creative-time h-[80px] absolute w-full -bottom-[80px]">
-      <div class="avatar w-[680px] m-auto h-full relative">
-        <a href="https://github.com/lrsoy" target="_blank" class="absolute z-10 left-0 -top-19">
-          <img class="w-30 h-30 rounded-full" src="/image/avatar.jpg" alt="">
-        </a>
-        <strong>
-          <a href="https://github.com/lrsoy">Lrsoy（中国北京）</a>
-        </strong>
-        <div class="vc_time" v-if="metaData.date">
-          <span>{{ dayjs(metaData.date) }}</span>
+      <div class="w-[1000px] m-auto h-full flex justify-between">
+        <div class="avatar w-[680px] h-full relative">
+          <a href="https://github.com/lrsoy" target="_blank" class="absolute z-10 left-0 -top-19">
+            <img class="w-30 h-30 rounded-full" src="/image/avatar.jpg" alt="">
+          </a>
+          <strong>
+            <a href="https://github.com/lrsoy">Lrsoy（中国北京）</a>
+          </strong>
+          <div class="vc_time" v-if="metaData.date">
+            <span>{{ dayjs(metaData.date) }}</span>
+          </div>
+        </div>
+        <div class="w-[245px] grid grid-cols-2">
+          <div class="icons">
+            <a href="https://github.com/lrsoy">
+              <Github />
+              <p>Github</p>
+            </a>
+          </div>
+          <div class="icons">
+            <a href="https://www.instagram.com/lrsoy_/">
+              <Ins />
+              <p>instagram</p>
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </header>
-  <!-- <header>
-    <router-link class="w-10 h-10 absolute lg:fixed m-2 select-none outline-none" to="/" focusable="false">
-      <img src="/book.svg" alt="" class="w-10 h-10">
-    </router-link>
-    <nav class="w-full p-4 box-border flex justify-end gap-5">
-      <router-link to="/" title="Blog">
-        <span>/</span>
-      </router-link>
-      <router-link to="/homes" title="Blog">
-        <span>知识汇总</span>
-      </router-link>
-      <router-link to="/about" title="Blog">
-        <span>about</span>
-      </router-link>
-      <a href="https://www.instagram.com/lrsoy_/" target="_blank" title="Instagram">
-        <Ins />
-      </a>
-      <a href="https://github.com/lrsoy" target="_blank" title="Github">
-        <Github />
-      </a>
-    </nav>
-  </header> -->
 </template>
 
 <style  lang="scss">
+.creative-time {
+  .icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: #666;
+    }
+
+    &:nth-of-type(1) {
+      border-left: 1px solid #e8e8e6;
+      border-right: 1px solid #e8e8e6;
+    }
+
+    &:nth-of-type(2) {
+      border-right: 1px solid #e8e8e6;
+    }
+  }
+}
+
 header {
   width: 100%;
   height: 400px;
@@ -140,7 +162,7 @@ header::after {
   width: 100%;
   position: relative;
   z-index: 1000;
-  background: rgba(4, 67, 98, 0.25);
+  background: rgba(0, 0, 0, 0.25);
 }
 
 header .bk-img {
@@ -168,7 +190,7 @@ header .bk-img {
 }
 
 .header-img3 {
-  @include headers('/image/header3.jpg');
+  @include headers('/image/banner3.jpg');
 }
 
 .nav {

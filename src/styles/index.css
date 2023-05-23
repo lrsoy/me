@@ -58,3 +58,28 @@
   .slide-enter-content > *:nth-child(19) { --enter-stage: 19; }
   .slide-enter-content > *:nth-child(20) { --enter-stage: 20; }
 }
+
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 0px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: #ffffff;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background:  #eee;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #bbb;
+}
+
