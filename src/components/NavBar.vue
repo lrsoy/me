@@ -48,7 +48,7 @@ const metaData: ComputedRef<Frontmatter> = computed(() => route.meta?.frontmatte
             <a href="https://github.com/lrsoy">Lrsoy（中国北京）</a>
           </strong>
           <div class="vc_time" v-if="metaData.date">
-            <span>{{ dayjs(metaData.date) }}</span>
+            <span>{{ dayjs(metaData.date).format('YYYY-MM-DD hh:mm:ss') }}</span>
           </div>
         </div>
         <div class="w-[245px] grid grid-cols-2">
