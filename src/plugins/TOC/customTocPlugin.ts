@@ -1,10 +1,10 @@
 import MarkdownIt from 'markdown-it';
-import emoji from 'markdown-it-emoji'
+// import emoji from 'markdown-it-emoji'
 // @ts-expect-error missing types
 import MarkdownItToc from 'markdown-it-table-of-contents';
 
 const customTocPlugin = (md: MarkdownIt, options: MarkdownItToc.Options): void => {
-  md.use(emoji)
+  // md.use(emoji)
   md.use(MarkdownItToc, options);
   const originalRender = md.renderer.render;
   md.renderer.render = function (tokens, options, env) {

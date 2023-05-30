@@ -32,9 +32,9 @@ const metaData: ComputedRef<Frontmatter> = computed(() => route.meta?.frontmatte
     </div>
     <div class="view_info">
       <div class="vi_con">
-        <h1>{{ metaData.display ?? metaData.title }}</h1>
-        <div class="subtitle" v-if="metaData.subtitle">
-          {{ metaData.subtitle }}
+        <h1>{{ metaData.display ?? metaData.title ?? '这是我的Blog' }}</h1>
+        <div class="subtitle">
+          {{ metaData.subtitle ?? '还没想好要介绍什么' }}
         </div>
       </div>
     </div>
@@ -47,8 +47,8 @@ const metaData: ComputedRef<Frontmatter> = computed(() => route.meta?.frontmatte
           <strong>
             <a href="https://github.com/lrsoy">Lrsoy（中国北京）</a>
           </strong>
-          <div class="vc_time" v-if="metaData.date">
-            <span>{{ dayjs(metaData.date).format('YYYY-MM-DD hh:mm:ss') }}</span>
+          <div class="vc_time">
+            <span>{{ dayjs(metaData.date).format('YYYY-MM-DD HH:mm:ss') }}</span>
           </div>
         </div>
         <div class="w-[245px] grid grid-cols-2">

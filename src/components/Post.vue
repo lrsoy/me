@@ -12,6 +12,7 @@ const { frontmatter } = defineProps({
 
 
 const router = useRouter()
+const route = useRoute()
 const content = ref<HTMLDivElement>()
 
 onMounted(() => {
@@ -78,21 +79,10 @@ const titleMouseout = () => {
 <template>
   <div>
     <article ref="content" id="article_content">
-      <div>
-        <div v-if="frontmatter.display ?? frontmatter.title" class="titles prose">
-          <h1 class="mb-0">
-            {{ frontmatter.display ?? frontmatter.title }}
-          </h1>
-          <p v-if="frontmatter.date" class="opacity-50 !-mt-2">
-            {{ formatDate(frontmatter.date) }}
-          </p>
-          <p v-if="frontmatter.subtitle" class="opacity-50 !-mt-6 italic">
-            {{ frontmatter.subtitle }}
-          </p>
-        </div>
-        <slot />
-      </div>
-      <div id="view_side">这是测试文字</div>
+      <slot />
+      <template v-if="route.path !== '/'">
+        <div id="view_side">这是测试文字</div>
+      </template>
     </article>
   </div>
 </template>
@@ -104,8 +94,9 @@ const titleMouseout = () => {
   display: flex;
   justify-content: space-between;
 
-  #view_side {
-    width: 245px;
-  }
+}
+
+#view_side {
+  width: 245px;
 }
 </style>
