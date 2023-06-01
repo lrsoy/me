@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     Home: typeof import('./src/components/Home.vue')['default']
     Ins: typeof import('./src/components/icons/Ins.vue')['default']
     ListNotes: typeof import('./src/components/ListNotes.vue')['default']
+    ListPosts: typeof import('./src/components/ListPosts.vue')['default']
     Moon: typeof import('./src/components/icons/Moon.vue')['default']
     NavBar: typeof import('./src/components/NavBar.vue')['default']
     Plum: typeof import('./src/components/Plum.vue')['default']

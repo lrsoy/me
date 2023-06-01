@@ -1,95 +1,96 @@
 ---
 title: lrsoy_
 notes: 
-  Basal: 
-    - name: 'HTML'
-      link: "/posts/html"
-      desc: "Html笔记"
-      icon: 'i-ri-html5-fill'
-    - name: 'CSS'
-      link: "/posts/css"
-      desc: "css笔记"
-      icon: 'i-ion-logo-css3'
-    - name: 'JavaScript'
-      link: "/posts/javascript"
-      desc: "javascript笔记"
-      icon: 'i-teenyicons-javascript-solid'
-    - name: 'TypeScript'
-      link: "/posts/typescript"
-      desc: "TypeScript笔记"
-      icon: 'i-akar-icons-typescript-fill'
-  Frame:
-    - name: 'Vue2'
-      link: '/'
-      desc: 'Vue.js 2.x笔记'
-      icon: "i-ri-vuejs-fill"
-    - name: 'Vue3'
-      link: '/'
-      desc: 'Vue.js 3.x笔记'
-      icon: "i-ri-vuejs-fill"
-    - name: 'React'
-      link: '/'
-      desc: 'React 笔记'
-      icon: "i-akar-icons-react-fill"
-    - name: 'Electron桌面端'
-      link: '/posts/electron'
-      desc: '桌面端应用开发'
-      icon: 'i-ion-logo-electron'
-  Frontend Tooling:
-    - name: 'Vite'
-      link: '/'
-      desc: 'Vite笔记'
-      icon: "i-simple-icons-vite"
-    - name: 'webpack'
-      link: '/'
-      desc: 'webpack笔记'
-      icon: "i-file-icons-webpack"
-    - name: 'rollup'
-      link: '/'
-      desc: 'rollup笔记'
-      icon: "i-simple-icons-rollupdotjs"
-  Package Management Tool:
-    - name: 'npm'
-      link: '/posts/npm'
-      desc: 'npm笔记'
-      icon: "i-teenyicons-npm-outline"
-    - name: 'yarn'
-      link: '/'
-      desc: 'yarn笔记'
-      icon: "i-simple-icons-yarn"
-    - name: 'pnpm'
-      link: '/'
-      desc: 'pnpm笔记'
-      icon: "i-file-icons-pnpm"
-  Git: 
-    - name: 'git'
-      link: '/posts/git'
-      desc: 'git笔记'
-      icon: "i-teenyicons-git-solid"
-    - name: 'github'
-      link: '/'
-      desc: 'github笔记'
-      icon: "i-bi-github"
-    - name: 'github actions'
-      link: '/posts/github-actions'
-      desc: 'github actions 笔记'
-      icon: "i-simple-icons-githubactions"
-  Server: 
-    - name: 'Node'
-      link: '/'
-      desc: 'Node 笔记'
-      icon: "i-mdi-nodejs"
-  Test: 
-    - name: 'Vitest'
-      link: '/posts/vitest'
-      desc: 'Vitest笔记'
-      icon: "i-simple-icons-vitest"
-  Other: 
-    - name: '算法'
-      link: '/'
-      desc: 'LeetCode 算法'
-      icon: "i-simple-icons-leetcode"
-
+  - name: 'HTML'
+    link: "/html"
+    desc: "Html笔记"
+    icon: 'i-ri-html5-fill'
+    image: '/image/html.jpg'
+  - name: 'CSS'
+    link: "/css"
+    desc: "css笔记"
+    icon: 'i-ion-logo-css3'
+    image: '/image/css.png'
+  - name: 'JavaScript'
+    link: "/javascript"
+    desc: "javascript笔记"
+    icon: 'i-teenyicons-javascript-solid'
+    image: '/image/JavaScript.jpg'
+  - name: 'TypeScript'
+    link: "/typescript"
+    desc: "TypeScript笔记"
+    icon: 'i-akar-icons-typescript-fill'
+    image: '/image/typescript.png'
+  - name: 'Vue'
+    link: '/'
+    desc: 'Vue.js 笔记'
+    icon: "i-ri-vuejs-fill"
+    image: '/image/vue.jpg'
+  - name: 'React'
+    link: '/'
+    desc: 'React 笔记'
+    icon: "i-akar-icons-react-fill"
+    image: '/image/react.png'
+  - name: 'Vite'
+    link: '/'
+    desc: 'Vite笔记'
+    icon: "i-simple-icons-vite"
+    image: '/image/vite.png'
+  - name: 'webpack'
+    link: '/'
+    desc: 'webpack笔记'
+    icon: "i-file-icons-webpack"
+    image: '/image/webpack.jpeg'
+  - name: 'rollup'
+    link: '/'
+    desc: 'rollup笔记'
+    icon: "i-simple-icons-rollupdotjs"
+    image: '/image/rollup.jpg'
+  - name: 'npm'
+    link: '/npm'
+    desc: 'npm笔记'
+    icon: "i-teenyicons-npm-outline"
+    image: '/image/npm.png'
+  - name: 'yarn'
+    link: '/'
+    desc: 'yarn笔记'
+    icon: "i-simple-icons-yarn"
+    image: '/image/yarn.png'
+  - name: 'pnpm'
+    link: '/'
+    desc: 'pnpm笔记'
+    icon: "i-file-icons-pnpm"
+    image: '/image/pnpm.jpg'
+  - name: 'git'
+    link: '/git'
+    desc: 'git笔记'
+    icon: "i-teenyicons-git-solid"
+    image: '/image/git.png'
+  - name: 'github'
+    link: '/'
+    desc: 'github笔记'
+    icon: "i-bi-github"
+    image: '/image/github.jpeg'
+  - name: 'github actions'
+    link: '/github-actions'
+    desc: 'github actions 笔记'
+    icon: "i-simple-icons-githubactions"
+    image: '/image/github-actions.png'
+  - name: 'Node'
+    link: '/'
+    desc: 'Node 笔记'
+    icon: "i-mdi-nodejs"
+    image: '/image/node.jpg'
+  - name: 'Vitest'
+    link: '/vitest'
+    desc: 'Vitest笔记'
+    icon: "i-simple-icons-vitest"
+    image: '/image/vitest.png'
+  - name: '算法'
+    link: '/'
+    desc: 'LeetCode 算法'
+    icon: "i-simple-icons-leetcode"
+    image: '/image/sf.png'
 ---
 <!-- @layout-full-width -->
 
