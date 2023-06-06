@@ -2,4 +2,4 @@
 title: HTML笔记 --lrsoy
 ---
 
-<ListPosts :address="'/html'"/>
+<ListPosts :address="'/html'" type="html"/>

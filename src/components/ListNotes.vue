@@ -5,7 +5,7 @@ defineProps<{ notes: Record<string, any> }>()
 </script>
 <template>
   <div class="CustomizeHomeFeatures">
-    <router-link v-for="(item, index) in notes" :key="index" :to="item.link" class="column  item mb-10">
+    <router-link v-for="(item, index) in notes" :key="index" :to="item.link" class="column  item mb-10 ">
       <article>
         <div class="entry-media">
           <img :src="item.image" class="w-full" />
@@ -13,31 +13,6 @@ defineProps<{ notes: Record<string, any> }>()
       </article>
     </router-link>
   </div>
-  <!-- <div class="mod-hd mt-5">
-      <h2 class="font-bold">
-        {{ key }}
-      </h2>
-    </div>
-    <div class="CustomizeHomeFeatures ">
-      <router-link v-for="(item, index) in notes[key]" :key="index" :to="item.link"
-        class="item relative flex items-center" :title="item.name">
-        <article>
-          <div class="entry-media">
-            <img src="/image/banner3.jpg" />
-          </div>
-          <div class="inner">
-            <div class="avatar">
-              <img src="/image/avatar.jpg" />
-            </div>
-            <div class="title">
-              <div class="label"></div>
-              <h2>{{ item.name }}</h2>
-            </div>
-            <div class="content">a</div>
-          </div>
-        </article>
-      </router-link>
-    </div> -->
 </template>
 
 <style lang="scss">
@@ -48,6 +23,26 @@ defineProps<{ notes: Record<string, any> }>()
 
   a.item {
     opacity: 1;
+    break-inside: avoid-column;
+    box-sizing: border-box;
+    box-shadow: 18px 18px 30px rgba(0, 0, 0, 0.1), -18px -18px 30px rgba(255, 255, 255, 1);
+    border-radius: 20px;
+    background-color: #efeeee;
+    transition: box-shadow .2s ease-out;
+
+    &:hover {
+      box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px rgba(255, 255, 255, 0.8), inset 18px 18px 30px rgba(0, 0, 0, 0.1), inset -18px -18px 30px rgba(255, 255, 255, 1);
+      transition: box-shadow .2s ease-out;
+    }
+
+    article {
+      box-sizing: border-box;
+      padding: 10px;
+
+      .entry-media {
+        border-radius: 20px;
+      }
+    }
   }
 
   .column {
@@ -83,7 +78,7 @@ defineProps<{ notes: Record<string, any> }>()
 
   .item:hover .entry-media img {
     /* 鼠标悬停时的图片效果 */
-    transform: scale(1.1);
+    // transform: scale(1.1);
   }
 
 }

@@ -1,6 +1,7 @@
 <!-- ListPosts 文章列表-->
 
 <script setup lang="ts">
+import dayjs from 'dayjs'
 import { useRouter, useRoute } from 'vue-router'
 import { formatDate } from '~/logics'
 import type { Frontmatter } from '~/types'
@@ -13,38 +14,46 @@ const props = defineProps<{
 
 const router = useRouter()
 const routes: Frontmatter[] = router.getRoutes()
-  .filter(i => i.path.startsWith(props.address as string) && i.meta.frontmatter.date)
-console.log(routes);
-
-const route = useRoute()
-console.log(route.meta.frontmatter);
+  .filter(i => i.path.startsWith(props.address as string))
+  .map(i => {
+    const frontmatter = i.meta.frontmatter as any;
+    return { ...i, meta: { ...i.meta, frontmatter } };
+  })
+  .filter(i => i.meta.frontmatter.date)
+  .sort((a, b) => +new Date(b.meta.frontmatter.date) - +new Date(a.meta.frontmatter.date))
+  .filter(i => !i.path.endsWith('.html') && i.meta.frontmatter.type === props.type)
+  .map(m => {
+    return {
+      path: m.path,
+      ...m.meta.frontmatter
+    }
+  })
 
 
 </script>
 <template>
   <ul class="ListPosts">
-    <template v-for="item in 2">
-      <router-link to="/" class="la ">
+    <template v-for="item in routes" :key="item.path">
+      <router-link :to="item.path" class="la ">
         <li class="postnormal review">
           <div class="post-container review-item">
             <div class="ct review-item-wrapper">
               <div class="tg">
-                <div class="review-item-img" style="background-image: url(/image/banner2.jpg);"></div>
+                <div class="review-item-img" :style="{ backgroundImage: `url(${item.image})` }"></div>
               </div>
               <div class="flex-xs-middle flex-1">
                 <div class="review-item-title">
-                  <span>我才不会写年终总结之瞎说篇我才不会写年终总结</span>
+                  <span>{{ item.title }}</span>
                 </div>
-                <div class="review-item-creator"><b>发布日期：</b>2017-12-30</div>
+                <div class="review-item-creator"><b>发布日期：</b>{{ dayjs(item.date).format('YYYY-MM-DD HH:mm:ss') }}</div>
               </div>
             </div>
             <div class="review-bg-wrapper">
-              <div class="bg-blur" style="background-image: url(/image/banner2.jpg);"></div>
+              <div class="bg-blur" :style="{ backgroundImage: `url(${item.image})` }"></div>
             </div>
           </div>
           <div class="post-container">
-            <div class="entry-content">确实讨厌去写所谓的年终总结，在公司已经被动的想领导上交一个总结，自己就懒得去总结，不然，我觉得脑子里应该会编写出八九不离十的内容，所以正经八儿的事情略了，瞎说一下。
-              年初的人事调动是个人最不能接受的事情，但不接受也得接受，老板一句“这是命令...</div>
+            <div class="entry-content">{{ item.description }}</div>
           </div>
         </li>
       </router-link>
