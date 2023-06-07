@@ -10,6 +10,10 @@ defineProps<{ notes: Record<string, any> }>()
         <div class="entry-media">
           <img :src="item.image" class="w-full" />
         </div>
+        <div class="inner flex ">
+          <h2>{{ item.name }}</h2>
+          <span :class="item.icon"></span>
+        </div>
       </article>
     </router-link>
   </div>
@@ -41,6 +45,18 @@ defineProps<{ notes: Record<string, any> }>()
 
       .entry-media {
         border-radius: 20px;
+      }
+
+      .inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+        height: 40px;
+
+        span {
+          font-size: 20px;
+        }
       }
     }
   }

@@ -34,7 +34,7 @@ const routes: Frontmatter[] = router.getRoutes()
 <template>
   <ul class="ListPosts">
     <template v-for="item in routes" :key="item.path">
-      <router-link :to="item.path" class="la ">
+      <router-link :to="item.path" class="la">
         <li class="postnormal review">
           <div class="post-container review-item">
             <div class="ct review-item-wrapper">
@@ -69,6 +69,7 @@ const routes: Frontmatter[] = router.getRoutes()
   }
 
   .la {
+
     &:first-child {
       li {
         margin-top: 25px !important;
@@ -182,10 +183,7 @@ const routes: Frontmatter[] = router.getRoutes()
     z-index: 0;
   }
 
-  .postnormal.review {
-    border-radius: 0 0 6px 6px;
-    box-shadow: 0 1px 3px rgba(249, 249, 249, 0.08), 0 0 0 1px rgba(26, 53, 71, .04), 0 1px 1px rgba(26, 53, 71, .06)
-  }
+
 
   .postnormal.review .review-item {
     position: relative;

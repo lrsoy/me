@@ -30,6 +30,20 @@ const metaData: ComputedRef<Frontmatter> = computed(() => route.meta?.frontmatte
         </div>
       </nav>
     </div>
+    <!-- <div class="creative-time absolute -bottom-[78px] w-full z-10">
+      <div bg-white class="w-[1000px] m-auto h-full box">
+        <div flex class="h-[96px]">
+          <div class="header__photo">
+            <img class="header__photo-img" src="/image/avatar.jpg" alt="Ronald Robertson">
+          </div>
+          <div class="header__base-info">
+            <h4 class="title titl--h4">Ronald Robertson</h4>
+            <div class="status">Creative Director</div>
+          </div>
+        </div>
+        <div class="h-[96px]">2</div>
+      </div>
+    </div> -->
     <div class="view_info">
       <div class="vi_con">
         <h1>{{ metaData.display ?? metaData.title ?? '这是我的Blog' }}</h1>
@@ -71,6 +85,30 @@ const metaData: ComputedRef<Frontmatter> = computed(() => route.meta?.frontmatte
 </template>
 
 <style  lang="scss">
+// .creative-time {
+//   .box {
+//     box-sizing: border-box;
+//     padding: 30px;
+//     display: grid;
+//     grid-template-columns: 1fr 1fr;
+//     border-radius: 20px;
+//     transition: box-shadow .2s ease-out;
+
+
+
+//     .header__photo {
+//       background-color: #fff;
+//       border: 6px solid #fff;
+//       border-radius: 45px;
+//       box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.05);
+//       margin-top: -66px;
+//       height: 162px;
+//       overflow: hidden;
+//       width: 162px;
+//     }
+//   }
+// }
+
 .creative-time {
   .icons {
     display: flex;
