@@ -29,6 +29,9 @@ const routes: Frontmatter[] = router.getRoutes()
     }
   })
 
+console.log(router.getRoutes());
+
+
 
 </script>
 <template>
