@@ -80,9 +80,7 @@ const titleMouseout = () => {
   <div>
     <article ref="content" id="article_content">
       <slot />
-      <template v-if="route.path !== '/'">
-        <div id="view_side">这是测试文字</div>
-      </template>
+      <div v-if="frontmatter?.toc" id="view_side">这是测试文字</div>
     </article>
   </div>
 </template>

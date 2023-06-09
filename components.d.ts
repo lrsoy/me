@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    DelayTeleport: typeof import('./src/components/DelayTeleport.vue')['default']
     Github: typeof import('./src/components/icons/Github.vue')['default']
     Home: typeof import('./src/components/Home.vue')['default']
     Ins: typeof import('./src/components/icons/Ins.vue')['default']

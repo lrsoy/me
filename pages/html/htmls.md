@@ -7,10 +7,12 @@
   date: 2023-05-08
   type: html
   author: lrsoy
+  toc: true
 ---
+<DelayTeleport>
 
 [[toc]]
-
+</DelayTeleport>
 
 ## :sparkles: 关于
 

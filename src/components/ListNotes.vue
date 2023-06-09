@@ -5,7 +5,8 @@ defineProps<{ notes: Record<string, any> }>()
 </script>
 <template>
   <div class="CustomizeHomeFeatures">
-    <router-link v-for="(item, index) in notes" :key="index" :to="item.link" class="column  item mb-10 ">
+    <router-link data-aos="fade-up" v-for="(item, index) in notes" :key="index" :to="item.link"
+      class="column  item mb-10 ">
       <article>
         <div class="entry-media">
           <img :src="item.image" class="w-full" />
@@ -32,7 +33,8 @@ defineProps<{ notes: Record<string, any> }>()
     box-shadow: 18px 18px 30px rgba(0, 0, 0, 0.1), -18px -18px 30px rgba(255, 255, 255, 1);
     border-radius: 20px;
     background-color: #efeeee;
-    transition: box-shadow .2s ease-out;
+    transition-timing-function: ease-out;
+    transition-property: opacity, transform, box-shadow;
 
     &:hover {
       box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px rgba(255, 255, 255, 0.8), inset 18px 18px 30px rgba(0, 0, 0, 0.1), inset -18px -18px 30px rgba(255, 255, 255, 1);

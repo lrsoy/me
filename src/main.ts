@@ -3,6 +3,7 @@ import './styles/markdown.css'
 import '@unocss/reset/tailwind.css'
 import 'uno.css'
 import './styles/post.css'
+import 'aos/dist/aos.css'
 
 import autoRoutes from 'pages-generated'
 import NProgress from 'nprogress'
@@ -10,7 +11,8 @@ import { ViteSSG } from 'vite-ssg'
 import dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat.js'
 import App from './App.vue'
-
+import aos from 'aos'
+aos.init()
 const routes = autoRoutes.map((i) => {
   return {
     ...i,
