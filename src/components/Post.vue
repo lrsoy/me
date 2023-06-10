@@ -74,13 +74,15 @@ const titleMouseover = () => {
 const titleMouseout = () => {
 }
 
+import { watchEffect } from 'vue';
+
 
 </script>
 <template>
   <div>
     <article ref="content" id="article_content">
       <slot />
-      <div v-if="frontmatter?.toc" id="view_side">这是测试文字</div>
+      <div v-if="frontmatter?.toc" id="view_side"></div>
     </article>
   </div>
 </template>

@@ -1,11 +1,29 @@
 <!-- DelayTeleport -->
-<script lang="ts">
+<script setup lang="ts">
+import { Teleport } from 'vue'
+const slots = useSlots()
+const teleportVnode = ref<VNode | null>(null)
+onMounted(() => {
+  if (slots.default?.()) {
+    teleportVnode.value = h(Teleport,
+      {
+        to: '#view_side'
+      },
+      slots.default?.()
+    )
+  }
+})
 
+const delayTeleport = {
+  render() {
+    return h('div', null, [teleportVnode.value])
+  }
+}
 </script>
 <template>
-  <teleport to="#app">
+  <delayTeleport>
     <slot></slot>
-  </teleport>
+  </delayTeleport>
 </template>
 
 <style  scoped></style>
