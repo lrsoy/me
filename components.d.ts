@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Css: typeof import('./src/components/css/index.md')['default']
     DelayTeleport: typeof import('./src/components/DelayTeleport.vue')['default']
     Github: typeof import('./src/components/icons/Github.vue')['default']
     Home: typeof import('./src/components/Home.vue')['default']
@@ -22,5 +23,6 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Sun: typeof import('./src/components/icons/Sun.vue')['default']
+    ViewSide: typeof import('./src/components/viewSide.vue')['default']
   }
 }

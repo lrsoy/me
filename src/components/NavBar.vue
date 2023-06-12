@@ -9,7 +9,48 @@ const metaData: ComputedRef<Frontmatter> = computed(() => route.meta?.frontmatte
 
 </script>
 <template>
-  <header class="mb-[90px]">
+  <header class="mb-[40px]">
+    <TransitionGroup name="fade" tag="div" class="bk-img">
+      <div key="img1" v-if="route.path === '/'" class="header-img1"></div>
+      <div key="img2" v-else-if="route.path === '/homes'" class="header-img2"></div>
+      <div key="img3" v-else class="header-img3"></div>
+    </TransitionGroup>
+    <div class="title">
+      <router-link class="w-10 h-10 absolute   select-none outline-none " to="/" focusable="false">
+        <img src="/book.svg" alt="" class="w-10 h-10">
+      </router-link>
+      <nav class="nav">
+        <div class="right">
+          <router-link to="/homes" title="Blog">
+            <span>
+              <i class="i-fxemoji-books"></i>
+              知识汇总
+            </span>
+          </router-link>
+          <router-link to="/about" title="Blog">
+            <span>
+              <i class="i-icon-park-error"></i>
+              问题合集
+            </span>
+          </router-link>
+          <a href="https://github.com/lrsoy" target="_blank" title="github">
+            <span>
+              <i class="i-devicon-github"></i>
+              Github
+            </span>
+          </a>
+          <a href="https://www.instagram.com/lrsoy_" target="_blank" title="github">
+            <span>
+              <i class="i-skill-icons-instagram"></i>
+              instagram
+            </span>
+          </a>
+        </div>
+      </nav>
+
+    </div>
+  </header>
+  <!-- <header class="mb-[90px]">
     <TransitionGroup name="fade" tag="div" class="bk-img">
       <div key="img1" v-if="route.path === '/'" class="header-img1"></div>
       <div key="img2" v-else-if="route.path === '/homes'" class="header-img2"></div>
@@ -30,20 +71,6 @@ const metaData: ComputedRef<Frontmatter> = computed(() => route.meta?.frontmatte
         </div>
       </nav>
     </div>
-    <!-- <div class="creative-time absolute -bottom-[78px] w-full z-10">
-      <div bg-white class="w-[1000px] m-auto h-full box">
-        <div flex class="h-[96px]">
-          <div class="header__photo">
-            <img class="header__photo-img" src="/image/avatar.jpg" alt="Ronald Robertson">
-          </div>
-          <div class="header__base-info">
-            <h4 class="title titl--h4">Ronald Robertson</h4>
-            <div class="status">Creative Director</div>
-          </div>
-        </div>
-        <div class="h-[96px]">2</div>
-      </div>
-    </div> -->
     <div class="view_info">
       <div class="vi_con">
         <h1>{{ metaData.display ?? metaData.title ?? '这是我的Blog' }}</h1>
@@ -81,107 +108,41 @@ const metaData: ComputedRef<Frontmatter> = computed(() => route.meta?.frontmatte
         </div>
       </div>
     </div>
-  </header>
+  </header> -->
 </template>
 
 <style  lang="scss">
-// .creative-time {
-//   .box {
-//     box-sizing: border-box;
-//     padding: 30px;
-//     display: grid;
-//     grid-template-columns: 1fr 1fr;
-//     border-radius: 20px;
-//     transition: box-shadow .2s ease-out;
-
-
-
-//     .header__photo {
-//       background-color: #fff;
-//       border: 6px solid #fff;
-//       border-radius: 45px;
-//       box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.05);
-//       margin-top: -66px;
-//       height: 162px;
-//       overflow: hidden;
-//       width: 162px;
-//     }
-//   }
-// }
-
-.creative-time {
-  .icons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-
-    a {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      color: #666;
-    }
-
-    &:nth-of-type(1) {
-      border-left: 1px solid #e8e8e6;
-      border-right: 1px solid #e8e8e6;
-    }
-
-    &:nth-of-type(2) {
-      border-right: 1px solid #e8e8e6;
-    }
-  }
-}
-
 header {
   width: 100%;
   height: 400px;
   position: relative;
-}
 
-header::before {
-  content: '';
-  z-index: 10;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: -moz-radial-gradient(center,
-      ellipse cover,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0) 36%,
-      rgba(0, 0, 0, 0.65) 100%);
-  /* FF3.6-15 */
-  background: -webkit-radial-gradient(center,
-      ellipse cover,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0) 36%,
-      rgba(0, 0, 0, 0.65) 100%);
-  /* Chrome10-25,Safari5.1-6 */
-  background: radial-gradient(ellipse at center,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0) 36%,
-      rgba(0, 0, 0, 0.65) 100%);
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000',
-      endColorstr='#a6000000',
-      GradientType=1);
-  /* IE6-9 fallback on horizontal gradient */
-  opacity: 0.6;
-}
+  .title {
+    height: 64px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #d7d7d7;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.05);
+    display: flex;
+    padding: 12px 20px;
+    background-color: white;
+  }
 
-header::after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: #000;
+  .nav {
+    width: 100%;
+    display: grid;
+    // grid-template-columns: auto max-content;
+
+    .right {
+      margin: auto;
+      line-height: 40px;
+      display: grid;
+      grid-gap: 1.2rem;
+      grid-auto-flow: column;
+      font-weight: 500;
+      white-space: nowrap;
+      font-size: .9rem;
+    }
+  }
 }
 
 .fade-enter-active,
@@ -196,12 +157,6 @@ header::after {
   background-color: pink;
 }
 
-.nav-wrapper {
-  width: 100%;
-  position: relative;
-  z-index: 1000;
-  background: rgba(0, 0, 0, 0.25);
-}
 
 header .bk-img {
   position: absolute;
@@ -209,6 +164,7 @@ header .bk-img {
   height: 400px;
   overflow: hidden;
   top: 0;
+  z-index: -1;
 }
 
 @mixin headers ($imgurl) {
@@ -220,34 +176,14 @@ header .bk-img {
 }
 
 .header-img1 {
-  @include headers('/image/banner2.jpg');
+  @include headers('/image/th.jpg');
 }
 
 .header-img2 {
-  @include headers('/image/banner1.jpeg');
+  @include headers('/image/banner1.jpg');
 }
 
 .header-img3 {
   @include headers('/image/banner3.jpg');
-}
-
-.nav {
-  max-width: 1000px;
-  margin: 0 auto;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  .links {
-
-    a,
-    a:active,
-    a:visited {
-      font-weight: 700;
-      color: white;
-      text-decoration: none;
-    }
-  }
 }
 </style>

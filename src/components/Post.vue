@@ -89,7 +89,7 @@ import { watchEffect } from 'vue';
 
 <style  lang="scss">
 #article_content {
-  width: 1000px;
+  width: 960px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;

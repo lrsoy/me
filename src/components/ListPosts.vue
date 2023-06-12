@@ -31,7 +31,7 @@ const routes: Frontmatter[] = router.getRoutes()
 
 </script>
 <template>
-  <ul class="ListPosts">
+  <!-- <ul class="ListPosts">
     <template v-for="item in routes" :key="item.path">
       <router-link :to="item.path" class="la">
         <li class="postnormal review">
@@ -57,7 +57,7 @@ const routes: Frontmatter[] = router.getRoutes()
         </li>
       </router-link>
     </template>
-  </ul>
+  </ul> -->
 </template>
 
 <style  lang="scss">
