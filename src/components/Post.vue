@@ -74,17 +74,27 @@ const titleMouseover = () => {
 const titleMouseout = () => {
 }
 
-import { watchEffect } from 'vue';
 
 
 </script>
 <template>
-  <div>
-    <article ref="content" id="article_content">
-      <slot />
-      <div v-if="frontmatter?.toc" id="view_side"></div>
-    </article>
-  </div>
+  <template v-if="frontmatter?.display">
+    <div class="w-[960px] m-auto displaytitle slide-enter">
+      <h1 class="mb-0 ">
+        {{ frontmatter.display }}
+      </h1>
+      <hr class="h-1 block" />
+      <div class="post_detail post_date " v-if="frontmatter.date">
+        <span class="post_info_date">
+          <span>发布于: {{ dayjs(frontmatter.date) }}</span>
+        </span>
+      </div>
+    </div>
+  </template>
+  <article ref="content" id="article_content">
+    <slot />
+    <div v-if="frontmatter?.toc" id="view_side" class="slide-enter"></div>
+  </article>
 </template>
 
 <style  lang="scss">
@@ -95,6 +105,36 @@ import { watchEffect } from 'vue';
   justify-content: space-between;
 
 }
+
+.displaytitle {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    font-weight: 800;
+    font-size: 34px;
+    font-family: "Josefin Sans", Helvetica, Arial, sans-serif;
+    letter-spacing: 0;
+    color: #222;
+  }
+
+  hr {
+    width: 50px;
+    display: block;
+    margin: auto;
+    margin: 5px 0 10px 0;
+    border-color: #be9656;
+  }
+
+  .post_detail {
+    font-size: 13px;
+    color: #999;
+  }
+}
+
 
 #view_side {
   width: 245px;

@@ -49,13 +49,13 @@ const metaData: ComputedRef<Frontmatter> = computed(() => route.meta?.frontmatte
       </nav>
 
     </div>
-    <template v-if="metaData.display ?? metaData.title">
+    <!-- <template v-if="metaData.display">
       <div class="description absolute z-10  text-white">
         <h1 class="mb-0 slide-enter">
           {{ metaData.display ?? metaData.title }}
         </h1>
       </div>
-    </template>
+    </template> -->
   </header>
   <!-- <header class="mb-[90px]">
     <TransitionGroup name="fade" tag="div" class="bk-img">
@@ -134,6 +134,13 @@ header {
     background-color: white;
   }
 
+  // .description {
+  //   top: 50%;
+  //   transform: translateY(-50%);
+  //   h1 {
+
+  //   }
+  // }
 
   .nav {
     width: 100%;
