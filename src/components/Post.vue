@@ -14,6 +14,7 @@ const { frontmatter } = defineProps({
 const router = useRouter()
 const route = useRoute()
 const content = ref<HTMLDivElement>()
+const viewSide = ref<HTMLDivElement>()
 
 onMounted(() => {
   const navigate = () => {
@@ -61,12 +62,9 @@ onMounted(() => {
 
   navigate()
   setTimeout(navigate, 500)
-
 })
 
-nextTick(() => {
 
-})
 
 const titleMouseover = () => {
 
@@ -93,7 +91,7 @@ const titleMouseout = () => {
   </template>
   <article ref="content" id="article_content">
     <slot />
-    <div v-if="frontmatter?.toc" id="view_side" class="slide-enter"></div>
+    <div v-if="frontmatter?.toc" id="view_side" ref="viewSide" class="slide-enter"></div>
   </article>
 </template>
 

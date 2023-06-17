@@ -527,18 +527,15 @@
   transition: all .4s ease-out;
   z-index: 99999;
 }
+*/
 
 
-.table-of-contents:hover {
-  opacity: 0.5;
-}
+
 .table-of-contents ul {
   line-height: 26px;
   font-size: 14px;
 }
-.table-of-contents ul li {
-  margin-bottom: 10px
-}
+
 .table-of-contents ul>li::before {
   display: none;
 }
@@ -548,4 +545,11 @@
 
 .table-of-contents ul li a:hover {
   text-decoration:underline ;
-} */
+  font-weight: 800;
+} 
+
+.table-of-contents ul li {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+}
