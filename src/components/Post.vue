@@ -136,5 +136,6 @@ const titleMouseout = () => {
 
 #view_side {
   width: 245px;
+  overflow: visible;
 }
 </style>

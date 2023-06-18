@@ -10,7 +10,6 @@ const customTocPlugin = (md: MarkdownIt, options: MarkdownItToc.Options): void =
   const originalRender = md.renderer.render;
   md.renderer.render = function (tokens, options, env) {
     const html = originalRender.call(this, tokens, options, env);
-    console.log(html);
 
     return html
   };

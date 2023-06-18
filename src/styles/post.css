@@ -529,7 +529,10 @@
 }
 */
 
-
+#view_side p {
+  position: sticky;
+  top: 50px;
+}
 
 .table-of-contents ul {
   line-height: 26px;

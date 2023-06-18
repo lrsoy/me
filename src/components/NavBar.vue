@@ -49,73 +49,7 @@ const metaData: ComputedRef<Frontmatter> = computed(() => route.meta?.frontmatte
       </nav>
 
     </div>
-    <!-- <template v-if="metaData.display">
-      <div class="description absolute z-10  text-white">
-        <h1 class="mb-0 slide-enter">
-          {{ metaData.display ?? metaData.title }}
-        </h1>
-      </div>
-    </template> -->
   </header>
-  <!-- <header class="mb-[90px]">
-    <TransitionGroup name="fade" tag="div" class="bk-img">
-      <div key="img1" v-if="route.path === '/'" class="header-img1"></div>
-      <div key="img2" v-else-if="route.path === '/homes'" class="header-img2"></div>
-      <div key="img3" v-else class="header-img3"></div>
-    </TransitionGroup>
-    <div class="nav-wrapper text-white">
-      <nav class="nav">
-        <router-link class="w-10 h-10 block" to="/" focusable="false">
-          <img src="/book.svg" alt="" class="w-10 h-10">
-        </router-link>
-        <div class="links flex gap-4">
-          <router-link to="/homes" title="Blog">
-            <span>知识汇总</span>
-          </router-link>
-          <router-link to="/about" title="Blog">
-            <span>about</span>
-          </router-link>
-        </div>
-      </nav>
-    </div>
-    <div class="view_info">
-      <div class="vi_con">
-        <h1>{{ metaData.display ?? metaData.title ?? '这是我的Blog' }}</h1>
-        <div class="subtitle">
-          {{ metaData.subtitle ?? '还没想好要介绍什么' }}
-        </div>
-      </div>
-    </div>
-    <div class="creative-time h-[80px] absolute w-full -bottom-[80px]">
-      <div class="w-[1000px] m-auto h-full flex justify-between">
-        <div class="avatar w-[680px] h-full relative">
-          <a href="https://github.com/lrsoy" target="_blank" class="absolute z-10 left-0 -top-19">
-            <img class="w-30 h-30 rounded-full" src="/image/avatar.jpg" alt="">
-          </a>
-          <strong>
-            <a href="https://github.com/lrsoy">Lrsoy（中国北京）</a>
-          </strong>
-          <div class="vc_time">
-            <span>{{ dayjs(metaData.date).format('YYYY-MM-DD HH:mm:ss') }}</span>
-          </div>
-        </div>
-        <div class="w-[245px] grid grid-cols-2">
-          <div class="icons">
-            <a href="https://github.com/lrsoy">
-              <Github />
-              <p>Github</p>
-            </a>
-          </div>
-          <div class="icons">
-            <a href="https://www.instagram.com/lrsoy_/">
-              <Ins />
-              <p>instagram</p>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header> -->
 </template>
 
 <style  lang="scss">
@@ -133,14 +67,6 @@ header {
     padding: 12px 20px;
     background-color: white;
   }
-
-  // .description {
-  //   top: 50%;
-  //   transform: translateY(-50%);
-  //   h1 {
-
-  //   }
-  // }
 
   .nav {
     width: 100%;

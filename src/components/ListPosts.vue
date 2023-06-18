@@ -29,6 +29,19 @@ const routes: Frontmatter[] = router.getRoutes()
     }
   })
 
+const getYear = (a: Date | string | number) => new Date(a).getFullYear()
+const isFuture = (a?: Date | string | number) => a && new Date(a) > new Date()
+const isSameYear = (a?: Date | string | number, b?: Date | string | number) => a && b && getYear(a) === getYear(b)
+function isSameGroup(a: Frontmatter, b?: Frontmatter) {
+  return (isFuture(a.date) === isFuture(b?.date)) && isSameYear(a.date, b?.date)
+}
+
+function getGroupName(p: Frontmatter) {
+
+  if (isFuture(p.date))
+    return 'Upcoming'
+  return getYear(p.date as unknown as Date)
+}
 </script>
 <template>
   <ul class="ListPosts">
