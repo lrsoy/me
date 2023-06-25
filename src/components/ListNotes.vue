@@ -5,45 +5,47 @@ defineProps<{ notes: Record<string, any> }>()
 </script>
 <template>
   <div class="CustomizeHomeFeatures">
-    <!-- <router-link data-aos="fade-up" v-for="(item, index) in notes" :key="index" :to="item.link"
-      class="column  item mb-10 ">
-      <article>
-        <div class="entry-media">
-          <img :src="item.image" class="w-full" />
-        </div>
-        <div class="inner flex ">
-          <h2>{{ item.name }}</h2>
-          <span :class="item.icon"></span>
-        </div>
-      </article>
-    </router-link> -->
-
-    <router-link data-aos="flip-up" v-for="(item, index) in notes" :key="index" :to="item.link"
-      class="column  item mb-10 ">
-      <div class="tc-image-effect16">
-        <img :src="item.image" alt="img1">
-        <div class="caption">
-          <h3>{{ item.name }}</h3>
-          <p>{{ item.desc }}</p>
-        </div>
-        <div class="link-wrap">
-          <a href="#"><i :class="item.icon"></i></a>
-        </div>
+    <template v-for="key in Object.keys(notes)" :key="key">
+      <h4 class="font-bold">
+        {{ key }}
+      </h4>
+      <div class="notes">
+        <router-link data-aos="flip-up" v-for="(item, index) in notes[key]" :key="index" :to="item.link"
+          class="column  item mb-10 ">
+          <div class="tc-image-effect16">
+            <img :src="item.image" alt="img1">
+            <div class="caption">
+              <h3>{{ item.name }}</h3>
+              <p>{{ item.desc }}</p>
+            </div>
+            <div class="link-wrap">
+              <a href="#"><i :class="item.icon"></i></a>
+            </div>
+          </div>
+        </router-link>
       </div>
-    </router-link>
+    </template>
   </div>
 </template>
 
 <style lang="scss">
 .CustomizeHomeFeatures {
   width: 100%;
-  column-count: 3;
-  column-gap: 20px;
+
+  .notes {
+    width: 100%;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
 
   .tc-image-effect16 {
     position: relative;
     overflow: hidden;
     background: #222;
+    width: 100%;
+    height: 100%;
   }
 
   .tc-image-effect16 img {
@@ -188,6 +190,7 @@ defineProps<{ notes: Record<string, any> }>()
     /* 列宽度 */
     margin-bottom: 20px;
     /* 元素间距 */
+    height: 190px;
   }
 
   .entry-media {
@@ -198,7 +201,8 @@ defineProps<{ notes: Record<string, any> }>()
   img {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     transition: transform 0.3s ease;
   }
 

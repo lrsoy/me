@@ -11,7 +11,7 @@
   --code-ln-wrapper-width: 3.5rem;
 }
 body {
-  /* background-color: #0e1225; */
+  background-color: #0e1225;
   /* background-color: rgb(246,246,246); */
   /* background-color: #efeeee; */
 }
@@ -408,10 +408,14 @@ a.item:hover {
 }
 
 a.header-anchor {
-  float: left;
-  margin-top: 0.125em;
-  margin-left: -1.2em;
-  padding-right: 0.5em;
+  position: absolute;
+  left: 0;
+  top: 0.125em;
+  left: -0.5em;
+  /* float: left; */
+  /* margin-top: 0.125em; */
+  /* margin-left: -1.2em; */
+  /* padding-right: 0.5em; */
   font-size: 0.85em;
   opacity: 0;
   text-decoration: none;

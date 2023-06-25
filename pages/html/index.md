@@ -1,5 +1,6 @@
 ---
 title: HTML笔记 --lrsoy
+display: ''
+update: true
 ---
-<!-- @layout-full-width -->
 <ListPosts :address="'/html'" type="html"/>

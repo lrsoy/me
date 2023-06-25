@@ -1,5 +1,5 @@
 ---
-  title: 这是文章的标题 --lrsoy
+  title: 这是文章的标题
   display: 这是一段简单测试文章标题的一段文字
   image: /image/banner1.jpg
   description: 文章介绍
@@ -8,6 +8,7 @@
   type: html
   author: lrsoy
   toc: true
+  duration: 8min
 ---
 <DelayTeleport>
 

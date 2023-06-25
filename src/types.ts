@@ -8,6 +8,7 @@ export interface Frontmatter {
   type?: string
   author?: boolean
   display?: string
+  duration?: string
 }
 
 export interface Post {

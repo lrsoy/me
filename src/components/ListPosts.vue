@@ -45,6 +45,40 @@ function getGroupName(p: Frontmatter) {
 </script>
 <template>
   <ul class="ListPosts">
+    <template v-for="route, idx in routes" :key="route.path">
+      <div v-if="!isSameGroup(route, routes[idx - 1])" select-none relative h20 pointer-events-none slide-enter :style="{
+        '--enter-stage': idx - 2,
+        '--enter-step': '60ms',
+      }">
+        <span text-8em color-transparent absolute left--3rem top--2rem font-bold text-stroke-2 text-stroke-hex-aaa op10>{{
+          getGroupName(route) }}</span>
+      </div>
+      <div class="slide-enter" :style="{
+        '--enter-stage': idx,
+        '--enter-step': '60ms',
+      }">
+        <component :is="route.path?.includes('://') ? 'a' : 'RouterLink'" v-bind="route.path?.includes('://') ? {
+          href: route.path,
+          target: '_blank',
+          rel: 'noopener noreferrer',
+        } : {
+          to: route.path,
+        }
+          " class="item block font-normal mb-6 mt-2 no-underline">
+          <li class="no-underline" flex="~ col md:row gap-2 md:items-center">
+            <div class="title text-lg leading-1.2em" flex gap-2>
+              <span align-middle>{{ route.title }}</span>
+            </div>
+            <div class="time opacity-50 text-sm">
+              {{ formatDate(route.date as string) }}
+              <span v-if="route?.duration" op80>· {{ route.duration }}</span>
+            </div>
+          </li>
+        </component>
+      </div>
+    </template>
+  </ul>
+  <!-- <ul class="ListPosts">
     <template v-for="item in routes" :key="item.path">
       <router-link :to="item.path" class="la">
         <li class="postnormal review">
@@ -70,189 +104,191 @@ function getGroupName(p: Frontmatter) {
         </li>
       </router-link>
     </template>
-  </ul>
+  </ul> -->
 </template>
 
 <style  lang="scss">
-.ListPosts {
-  .review {
-    border-radius: 0 0 6px 6px;
-    box-shadow: 0 1px 3px rgba(249, 249, 249, 0.08), 0 0 0 1px rgba(26, 53, 71, .04), 0 1px 1px rgba(26, 53, 71, .06);
-  }
+.ListPosts {}
 
-  .la {
+// .ListPosts {
+//   .review {
+//     border-radius: 0 0 6px 6px;
+//     box-shadow: 0 1px 3px rgba(249, 249, 249, 0.08), 0 0 0 1px rgba(26, 53, 71, .04), 0 1px 1px rgba(26, 53, 71, .06);
+//   }
 
-    &:first-child {
-      li {
-        margin-top: 25px !important;
-      }
-    }
+//   .la {
 
-    &:not(:first-child) {
-      li {
-        margin-top: 40px !important;
-      }
-    }
-  }
+//     &:first-child {
+//       li {
+//         margin-top: 25px !important;
+//       }
+//     }
 
-  .gaz-btn.primary {
-    background: #2E60C4
-  }
+//     &:not(:first-child) {
+//       li {
+//         margin-top: 40px !important;
+//       }
+//     }
+//   }
 
-  .gaz-btn {
-    font-size: .8em;
-    font-weight: 700;
-    padding: 12px 25px;
-    text-transform: uppercase;
-    color: white !important;
-    border-radius: 30px;
-    border: none;
-    -webkit-transition: all .2s;
-    transition: all .2s;
-    display: inline-block
-  }
+//   .gaz-btn.primary {
+//     background: #2E60C4
+//   }
 
-  .ct {
-    box-sizing: border-box;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
-    padding: 10px 0;
-  }
+//   .gaz-btn {
+//     font-size: .8em;
+//     font-weight: 700;
+//     padding: 12px 25px;
+//     text-transform: uppercase;
+//     color: white !important;
+//     border-radius: 30px;
+//     border: none;
+//     -webkit-transition: all .2s;
+//     transition: all .2s;
+//     display: inline-block
+//   }
 
-
-
-  .gaz-btn.primary {
-    background: #bebbaa;
-  }
-
-  .entry-content {
-    font-size: 16px;
-    color: rgba(0, 0, 0, .6);
-    line-height: 1.75;
-    -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    -ms-hyphens: auto;
-    hyphens: auto;
-    padding-bottom: 1.3rem;
-  }
-
-  .bg-blur {
-    background-position: center;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    background-size: cover;
-    border-radius: 6px;
-    -webkit-filter: blur(5px);
-    filter: blur(5px);
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-    -o-object-fit: cover;
-    object-fit: cover;
-    pointer-events: none;
-
-    &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      top: 0;
-      left: 0;
-      background: -webkit-linear-gradient(top, rgba(105, 105, 105, 0.1) 0%, #fff 85%);
-      background: linear-gradient(to bottom, rgba(105, 105, 105, 0.1) 0%, #fff 85%)
-    }
-  }
-
-  .review-item-title {
-    font-size: 20px;
-    font-weight: 700;
-    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1)
-  }
-
-  .review-item-creator {
-    font-size: 1em;
-    font-weight: normal;
-    padding: 0.5em 0;
-  }
-
-  .review-bg-wrapper {
-    overflow: hidden;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    border-radius: 6px 6px 0 0;
-    z-index: 0;
-  }
+//   .ct {
+//     box-sizing: border-box;
+//     display: -webkit-box;
+//     display: -ms-flexbox;
+//     display: flex;
+//     -ms-flex-wrap: wrap;
+//     flex-wrap: wrap;
+//     margin-right: -15px;
+//     margin-left: -15px;
+//     padding: 10px 0;
+//   }
 
 
 
-  .postnormal.review .review-item {
-    position: relative;
-    overflow: visible;
-    margin-top: 1.5em;
-    border-radius: 6px 6px 0 0;
-    min-height: 200px
-  }
+//   .gaz-btn.primary {
+//     background: #bebbaa;
+//   }
 
-  .postnormal.review .post-container {
-    margin-top: 0;
-    z-index: 2
-  }
+//   .entry-content {
+//     font-size: 16px;
+//     color: rgba(0, 0, 0, .6);
+//     line-height: 1.75;
+//     -webkit-hyphens: auto;
+//     -moz-hyphens: auto;
+//     -ms-hyphens: auto;
+//     hyphens: auto;
+//     padding-bottom: 1.3rem;
+//   }
 
-  .postnormal .post-container {
-    background: white;
-    margin-top: 10px;
-    padding: 1.3rem 1.3rem 2rem;
-    border-radius: 6px;
-    overflow: hidden;
-  }
+//   .bg-blur {
+//     background-position: center;
+//     position: absolute;
+//     left: 0;
+//     top: 0;
+//     width: 100%;
+//     height: 100%;
+//     z-index: 0;
+//     background-size: cover;
+//     border-radius: 6px;
+//     -webkit-filter: blur(5px);
+//     filter: blur(5px);
+//     -webkit-transform: scale(1.2);
+//     transform: scale(1.2);
+//     -o-object-fit: cover;
+//     object-fit: cover;
+//     pointer-events: none;
 
-  .postnormal.review .review-item .review-item-wrapper {
-    position: relative;
-    z-index: 1;
-    color: white
-  }
+//     &::after {
+//       content: "";
+//       position: absolute;
+//       width: 100%;
+//       height: 100%;
+//       z-index: 1;
+//       top: 0;
+//       left: 0;
+//       background: -webkit-linear-gradient(top, rgba(105, 105, 105, 0.1) 0%, #fff 85%);
+//       background: linear-gradient(to bottom, rgba(105, 105, 105, 0.1) 0%, #fff 85%)
+//     }
+//   }
 
-  .review-item-img {
-    position: absolute;
-    width: 130px;
-    height: 190px;
-    top: -50px;
-    left: 25px;
-    border-radius: 4px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    background-size: cover;
-    background-position: top center
-  }
+//   .review-item-title {
+//     font-size: 20px;
+//     font-weight: 700;
+//     text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1)
+//   }
 
-  .flex-xs-middle {
-    position: relative;
-    min-height: 1px;
-    padding-right: 0;
-    padding-left: 0;
-    -ms-flex-item-align: center;
-    align-self: center;
-    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
-  }
+//   .review-item-creator {
+//     font-size: 1em;
+//     font-weight: normal;
+//     padding: 0.5em 0;
+//   }
 
-  .tg {
-    position: relative;
-    min-height: 1px;
-    padding-right: 0;
-    padding-left: 0;
-    width: 25%
-  }
+//   .review-bg-wrapper {
+//     overflow: hidden;
+//     position: absolute;
+//     left: 0;
+//     right: 0;
+//     top: 0;
+//     bottom: 0;
+//     border-radius: 6px 6px 0 0;
+//     z-index: 0;
+//   }
 
-}
+
+
+//   .postnormal.review .review-item {
+//     position: relative;
+//     overflow: visible;
+//     margin-top: 1.5em;
+//     border-radius: 6px 6px 0 0;
+//     min-height: 200px
+//   }
+
+//   .postnormal.review .post-container {
+//     margin-top: 0;
+//     z-index: 2
+//   }
+
+//   .postnormal .post-container {
+//     background: white;
+//     margin-top: 10px;
+//     padding: 1.3rem 1.3rem 2rem;
+//     border-radius: 6px;
+//     overflow: hidden;
+//   }
+
+//   .postnormal.review .review-item .review-item-wrapper {
+//     position: relative;
+//     z-index: 1;
+//     color: white
+//   }
+
+//   .review-item-img {
+//     position: absolute;
+//     width: 130px;
+//     height: 190px;
+//     top: -50px;
+//     left: 25px;
+//     border-radius: 4px;
+//     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+//     background-size: cover;
+//     background-position: top center
+//   }
+
+//   .flex-xs-middle {
+//     position: relative;
+//     min-height: 1px;
+//     padding-right: 0;
+//     padding-left: 0;
+//     -ms-flex-item-align: center;
+//     align-self: center;
+//     text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+//   }
+
+//   .tg {
+//     position: relative;
+//     min-height: 1px;
+//     padding-right: 0;
+//     padding-left: 0;
+//     width: 25%
+//   }
+
+// }
 </style>
