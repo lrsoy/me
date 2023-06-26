@@ -84,7 +84,14 @@ const routes: Frontmatter[] = router.getRoutes()
     }
   })
 
-
+const link = computed(() => {
+  const i = route.path.split('/').slice(0, -1).join('/')
+  const isHas = router.getRoutes().some(s => s.path === route.path)
+  if (!isHas) {
+    return '/'
+  }
+  return i
+})
 
 </script>
 <template>
@@ -103,23 +110,32 @@ const routes: Frontmatter[] = router.getRoutes()
   </template>
   <article ref="content" id="article_content">
     <slot />
-    <div v-if="frontmatter?.toc" id="view_side" ref="viewSide" class="slide-enter"></div>
-    <div v-if="frontmatter?.update" id="update" class="slide-enter">
-      <div class="update-release">
-        <div class="mb-1 text-[14px]">🔥 最新发布</div>
-        <ul>
-          <template v-for="(item, index) in routes" :key="item.path">
-            <li>
-              <span class="idx">{{ index + 1 }}</span>
-              <div class="flex-1 w-full ct">
-                <router-link :to="item.path">
-                  <p class="text-[14px]">{{ item.display }}</p>
-                </router-link>
-                <span class="text-2">{{ dayjs(item.date).format('YYYY-MM-DD') }}</span>
-              </div>
-            </li>
-          </template>
-        </ul>
+    <div>
+      <div class="side">
+        <div v-if="frontmatter?.toc" id="view_side" ref="viewSide" class="slide-enter"></div>
+        <div v-if="frontmatter?.update" id="update" class="slide-enter">
+          <div class="update-release">
+            <div class="mb-1 text-[14px]">🔥 最新发布</div>
+            <ul>
+              <template v-for="(item, index) in routes" :key="item.path">
+                <li>
+                  <span class="idx">{{ index + 1 }}</span>
+                  <div class="flex-1 w-full ct">
+                    <router-link :to="item.path">
+                      <p class="text-[14px]">{{ item.display }}</p>
+                    </router-link>
+                    <span class="text-2">{{ dayjs(item.date).format('YYYY-MM-DD') }}</span>
+                  </div>
+                </li>
+              </template>
+            </ul>
+          </div>
+        </div>
+        <div v-if="route.path !== '/'" class="go-back slide-enter">
+          <router-link :to="link || '/'" class="font-mono no-underline opacity-50 hover:opacity-75">
+            cd ..
+          </router-link>
+        </div>
       </div>
     </div>
   </article>
@@ -169,6 +185,17 @@ const routes: Frontmatter[] = router.getRoutes()
   display: flex;
   justify-content: space-between;
 
+  .go-back {
+    font-size: 15px;
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 5px;
+    color: #ffffff;
+  }
 }
 
 .displaytitle {
