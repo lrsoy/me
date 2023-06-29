@@ -100,6 +100,11 @@ notes:
       desc: 'LeetCode 算法'
       icon: "i-simple-icons-leetcode"
       image: '/image/sf.png'
+    - name: '部署'
+      link: '/other'
+      desc: '前端部署相关知识'
+      icon: 'i-devicon-jenkins'
+      image: ''
 
 ---
 <!-- @layout-full-width -->
