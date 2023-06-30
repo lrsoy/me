@@ -14,23 +14,23 @@ notes:
       icon: 'i-ion-logo-css3'
       image: '/image/css.png'
     - name: 'JavaScript'
-      link: "/javascript"
+      link: "/js"
       desc: "javascript笔记"
       icon: 'i-teenyicons-javascript-solid'
       image: '/image/JavaScript.jpg'
     - name: 'TypeScript'
-      link: "/typescript"
+      link: "/ts"
       desc: "TypeScript笔记"
       icon: 'i-akar-icons-typescript-fill'
       image: '/image/typescript.png'
   Frame:
     - name: 'Vue'
-      link: '/'
+      link: '/vue'
       desc: 'Vue.js 笔记'
       icon: "i-ri-vuejs-fill"
       image: '/image/vue.jpg'
     - name: 'React'
-      link: '/'
+      link: '/react'
       desc: 'React 笔记'
       icon: "i-akar-icons-react-fill"
       image: '/image/react.png'
@@ -41,18 +41,18 @@ notes:
       icon: "i-simple-icons-vite"
       image: '/image/vite.png'
     - name: 'webpack'
-      link: '/'
+      link: '/webpack'
       desc: 'webpack笔记'
       icon: "i-file-icons-webpack"
       image: '/image/webpack.jpeg'
     - name: 'rollup'
-      link: '/'
+      link: '/rollup'
       desc: 'rollup笔记'
       icon: "i-simple-icons-rollupdotjs"
       image: '/image/rollup.jpg'
   Package Management Tool:
     - name: 'npm'
-      link: '/npm'
+      link: '/'
       desc: 'npm笔记'
       icon: "i-teenyicons-npm-outline"
       image: '/image/npm.png'
@@ -78,13 +78,13 @@ notes:
       icon: "i-bi-github"
       image: '/image/github.jpeg'
     - name: 'github actions'
-      link: '/github-actions'
+      link: '/'
       desc: 'github actions 笔记'
       icon: "i-simple-icons-githubactions"
       image: '/image/github-actions.png'
   Server: 
     - name: 'Node'
-      link: '/'
+      link: '/node'
       desc: 'Node 笔记'
       icon: "i-mdi-nodejs"
       image: '/image/node.jpg'
@@ -96,7 +96,7 @@ notes:
       image: '/image/vitest.png'
   Other: 
     - name: '算法'
-      link: '/'
+      link: '/LeetCode'
       desc: 'LeetCode 算法'
       icon: "i-simple-icons-leetcode"
       image: '/image/sf.png'

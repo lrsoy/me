@@ -1,6 +1,7 @@
 ---
 title: 学习git
+display: ''
+update: true
 ---
 
-<!-- @layout-full-width -->
 <ListPosts :address="'/git'" type="git"/>
