@@ -21,13 +21,13 @@ const metaData: ComputedRef<Frontmatter> = computed(() => route.meta?.frontmatte
       </router-link>
       <nav class="nav">
         <div class="right">
-          <router-link to="/homes" title="Blog">
+          <router-link to="/" title="Blog">
             <span>
               <i class="i-fxemoji-books"></i>
               知识汇总
             </span>
           </router-link>
-          <router-link to="/about" title="Blog">
+          <router-link to="/question" title="Blog">
             <span>
               <i class="i-icon-park-error"></i>
               问题合集

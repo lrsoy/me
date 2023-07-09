@@ -1,5 +1,4 @@
 <!-- Post -->
-
 <script setup lang="ts">
 import { formatDate } from '~/logics'
 import dayjs from 'dayjs'
@@ -10,7 +9,6 @@ const { frontmatter } = defineProps({
     required: true,
   },
 })
-
 
 const router = useRouter()
 const route = useRoute()
@@ -66,12 +64,11 @@ onMounted(() => {
 })
 
 
-
 // 通过路由获取最新发布的文章
 const routes: Frontmatter[] = router.getRoutes()
   .map(i => {
     const frontmatter = i.meta.frontmatter as any;
-    return { ...i, meta: { ...i.meta, frontmatter } };
+    return { ...i, meta: { ...i.meta, frontmatter } }
   })
   .sort((a, b) => +new Date(b.meta.frontmatter.date) - +new Date(a.meta.frontmatter.date))
   .filter(f => f.meta.frontmatter?.toc)
