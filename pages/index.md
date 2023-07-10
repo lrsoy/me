@@ -105,6 +105,11 @@ notes:
       desc: '前端部署相关知识'
       icon: 'i-devicon-jenkins'
       image: ''
+    - name: 'vscode'
+      link: '/vscode-plugin'
+      desc: 'vscode 插件开发'
+      icon: 'i-vscode-icons-file-type-vscode'
+      image: ''
 
 ---
 <!-- @layout-full-width -->
