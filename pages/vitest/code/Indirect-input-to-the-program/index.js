@@ -1,5 +1,5 @@
-import { num1 } from "./function"
+import { increment } from "./function"
 
-export const sum = () => {
-  return num1() * 2
+export const ride = () => {
+  return increment() * 2
 }

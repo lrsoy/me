@@ -1,13 +1,5 @@
 
-export const num1 = () => {
+export const increment = () => {
   return 10
-}
-
-export const num2 = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      return resolve(10)
-    }, 0)
-  })
 }
 
