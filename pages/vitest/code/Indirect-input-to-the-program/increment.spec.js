@@ -11,7 +11,7 @@ describe('官方文档案例vi.doMock', () => {
     // simple doMock doesn't clear the previous cache, so we need to clear it manually here
     vi.doUnmock('./increment.js')
     // you can access variables inside a factory
-    vi.doMock('./increment.js', () => ({ increment: () => mockedIncrement++ }))
+    vi.doMock('./increment.js', () => ({ increment: () => ++mockedIncrement }))
   })
 
 
