@@ -166,21 +166,380 @@ describe("间接输入", () => {
 
 ## 二、第三方库、对象、class、常量
 
-### 2.1 第三方库
+### 2.1 第三方库（例：axios）
 
+在真实开发过程中，**axios **算是使用最频繁的一个第三方库了，还有一些例如**lodash、dayjs**等等，这些都是第三方的工具库，以axios为例，演示如何测试第三方工具库，其他工具库在具体使用时根据具体情况进行测试。
 
+```ts
+// thirdpartylibrary.ts
+import axios from 'axios'
+
+export const questSentences = async () => {
+  const res = await axios({
+    method: 'get',
+    url: 'https://api.apiopen.top/api/sentences'
+  })
+  if (res.data.code === 200) {
+    return true
+  }
+  return false
+}
+
+```
+
+```ts
+// thirdpartylibrary.spec.ts
+import { describe, it, expect, vi } from 'vitest'
+import { questSentences } from '../src/thirdpartylibrary'
+import axios from 'axios'
+
+// 第三方模块测试：如果对axios进行了二次封装，在vi.mock的时候就需要将二次封装的函数导入进来
+
+vi.mock('axios')
+describe('第三方库测试', () => {
+
+  it('测试请求图片接口 axios', async () => {
+    // 准备数据
+    vi.mocked(axios).mockResolvedValue({ data: { code: 200 } })
+    // 调用
+    const r = await questSentences()
+    // 验证
+    expect(r).toBeTruthy()
+  })
+
+})
+```
+
+在实际开发中可能针对一些网络请求的工具库进行二次封装`axios` 在测试的时候如下
+
+```ts
+// 例：request.ts
+export default class Axios {
+    constructor(){...}
+    _interceptors(){...}
+    request(){...}
+    resetUrl(){...}
+    get(){....}
+    post(){....}
+}
+export const instance = new Axios
+```
+
+```ts
+// *.spec.ts
+import { describe, it, expect, vi } from 'vitest'
+import { instance } from './request'
+
+// 此时这个位置 vi.mock的时候，就需要传入的是二次封装的函数
+vi.mock('instance')
+describe('第三方库测试', () => {
+  it('测试请求图片接口 axios', async () => {
+    // 准备数据
+    vi.mocked(instance).mockResolvedValue() // 普通调用
+    vi.mocked(instance.get).mockResolvedValue() // .get
+    vi.mocked(instance.post).mockResolvedValue() // .post
+    // 调用
+    // 验证
+  })
+})
+```
 
 ### 2.2 对象
 
+测对象，一般测试从两方面进行测试，对象的属性以及对象的方法，当一个函数在使用某一个对象里面的**属性或方法**如何通过`vitest`进行测试，例：
 
+```ts
+// obj.ts
+export const obj = {
+  name: '小明',
+  status: false,
+  ageLogFun() {
+    return this.status
+  }
+}
+export const objKeyTest = () => {
+  if (obj.status === true) {
+    return 18
+  }
+  return '错误信息'
+}
+export const objFuncTest = () => {
+  return obj.ageLogFun() ? 'yes' : 'no'
+}
+```
+
+```ts
+// obj.spec.ts
+import { describe, it, vi, expect } from 'vitest'
+import { objKeyTest, obj, objFuncTest } from '../src/obj'
+// 测试在方法里面用获取对象里面值的时候，如果测试对象的属性以及方法
+describe("对象", () => {
+  // 测试对象属性
+  it("对象属性的测试", () => {
+    // 准备数据： 针对对象属性直接对对象的值进行更改
+    obj.status = true
+    // 调用
+    const r = objKeyTest()
+    // 验证
+    expect(r).toBe(18)
+  })
+  // 测试对象上面的方法
+  it("对象方法的测试", () => {
+    // 准备数据: 和测试对象属性相同的方式，对 对象的方法进行赋值即可
+    obj.ageLogFun = () => {
+      return false
+    }
+    // 调用
+    const r = objFuncTest()
+    // 验证
+    expect(r).toBe('no')
+  })
+})
+```
+
+测试对象属性以及对象方法时，直接对其进行更改即可，没什么需要注意的地方，注意的是在更改时直接赋值结果，不考虑逻辑实现。
 
 ### 2.3 class
 
+在测试class的时候，需要测试的是**类的属性以及类的方法**，需要注意的是，当类里面方法涉及到参数时，需要在new class的时候传递参数，需要遵从**最小数据原则**，去优化传参问题
 
+```ts
+// class.ts
+import { User } from './config'
+export const testClassAttribute = () => {
+  const user = new User()
+
+  return user.age * 10
+}
+export const testClassFunc = () => {
+  const user = new User()
+
+  return user.getAge() * 10
+}
+```
+
+```ts
+// config.ts
+export class User {
+  age: number = 18
+  name: string = '小明'
+  getAge() {
+    return this.age
+  }
+}
+```
+
+```ts
+// class.spec.ts
+import { describe, it, expect, vi } from 'vitest'
+import { User } from '~/config'
+import { testClassAttribute, testClassFunc } from '~/class'
+
+// 测试类属性
+vi.mock('~/config', () => {
+  return {
+    User: class User {
+      age: number = 10
+    }
+  }
+})
+
+// 测试类方法 01
+vi.mock('~/config', () => {
+  return {
+    User: class User {
+      getAge() {
+        return 2
+      }
+    }
+  }
+})
+
+describe('class 类', () => {
+  it.skip("class 类属性", async () => {
+    // 准备数据
+    // 调用
+    const r = testClassAttribute()
+    // 验证
+    expect(r).toBe(100)
+  })
+  it.skip("class 方法 01", () => {
+    // 准备数据
+    // 调用
+    const r = testClassFunc()
+    // 验证
+    expect(r).toBe(20)
+  })
+  it("class 方法 02", () => {
+    // 准备数据：通过原型链 prototype 去更改数据
+    User.prototype.getAge = () => 3
+    // 调用
+    const r = testClassFunc()
+    // 验证
+    expect(r).toBe(30)
+  })
+})
+```
+
+在测试class的时候避免要测试的数据和使用数据的方法存放在一个文件里，由于vi.mock的底层问题，如果放在一起，会导致测试结果是不通过的，所以在测试的时候需要分开存放，为什么要这样(待补充......)
+
+错误示范
+
+```ts
+// user.ts ： 当testClassAttribute 要使用的数据和他存在一个文件内
+export class User {
+  age: number = 18
+  name: string = '小明'
+}
+
+export const testClassAttribute = () => {
+  const user = new User()
+  return user.age * 10
+}
+```
+
+```ts
+// user.spec.ts
+import { describe, it, expect, vi } from 'vitest'
+import { testClassAttribute } from '~/user'
+
+// 准备数据
+vi.mock("~/class", async (importOriginal) => {
+  const config = await importOriginal()
+  return {
+    ...config as any,
+    User: class User {
+      age: number = 10
+    }
+  }
+})
+
+describe('class 类', () => {
+  it.skip('失败： 测试class 属性', () => {
+    const r = testClassAttribute()
+    expect(r).toBe(100)
+  })
+})
+```
+
+测试结果
+
+![](/public/vitest/914038464f7f7c6173ae38db64e2872.png)
 
 ### 2.4 常量
 
+```ts
+// variable.ts
+import { age, name } from './config'
 
+export const variableTest = () => {
+  return name + '是一个测试框架'
+}
 
+```
+
+```ts
+// config.ts
+export const name = 'test'
+export const age = 18
+```
+
+```ts
+// variable.spec.ts
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { variableTest } from '~/variable'
+
+// 准备数据
+vi.mock("~/config", async (importOriginal) => {
+  const config = await importOriginal()
+  /* 
+    问题：
+      值得注意的是，如果这里直接返回的是name，那么如果在variable.ts文件里面我在调用另一个常量
+      就会导致测试结果是失败的，原因是在vi.mock的时候，他返回了name,并没有将其他值返回出去，
+      所以在测试的时候结果是错误的，因为vi.mock没有将其他值一并返回
+    解答：
+      01.
+        vi.mock的第回调函数接受一个 importOriginal 参数，这个参数的返回值如下:
+        [Object: null prototype] [Module] {
+          User: [Getter],
+          name: [Getter],
+          age: [Getter]
+        }
+        是一个对象，所以可以通过importOriginal获取到，然后通过展开语法直接合并到返回对象里即可，
+      02.
+        通过 vi.importActual 获取
+        const config = await vi.importActual('~/config')
+        这样也是可以获取的，但是这样就会给我们自己增加工作量，当文件位置发生改变或者是文件名变更，需要
+        一个一个的更改，所以不推荐使用
+
+  */
+  return {
+    ...config as any,
+    name: 'vitest'
+  }
+})
+describe('常量', () => {
+
+  it("常量测试", () => {
+
+    // 调用
+    const r = variableTest()
+    // 验证
+    expect(r).toBe('vitest是一个测试框架')
+
+  })
+
+})
+```
+
+在测试常量的时候需要值得注意的两个点
+
+一般情况下，这些常量会被放在一个文件内进行管理，当在测试某一个常量的时候，通常会在测试准备数据阶段将这个数据通过**vi.mock**进行替换，注意此时我们只测试一个常量，此时我在实现逻辑的时候，我需要了另一个常量，这时我们的测试是不通过的，原因就是在mock的时候，我只对上一个数据做了mock，mock在替换数据的时候是只保留写的常量，其他常量是没有被返回的，所以导致测试失败
+
+```ts
+// 问题：
+- config.ts
+export const name = 'test'
+export const age = 18
+
+- variable.ts
+export const variableTest = () => {
+  console.log(age) // 会报错
+  return name + '是一个测试框架'
+}
+
+- variable.spec.ts
+vi.mock("~/config", async (importOriginal) => {
+    return {
+        name: 'vitest'
+    }
+})
+describe('常量', () => {
+  it("常量测试", () => {
+    const r = variableTest()
+    expect(r).toBe('vitest是一个测试框架')
+  })
+})
+```
+
+![](/public/vitest/c9d1a30235569f6dcad2e89f5886979.png)
+
+```ts
+// 解决：
+vi.mock("~/config", async (importOriginal) => {
+  01 vi.mock的第回调函数接受一个 importOriginal 参数，这个参数的返回值如下
+  const config = await importOriginal()
+  
+  02 通过 vi.importActual 获取
+  const config = await vi.importActual('~/config')
+  return {
+    // 将获取到的 config 合并到里面
+    ...config as any,
+    name: 'vitest'
+  }
+})
+```
+
+![](/public/vitest/b2cb868457de7a741bd98a501f2a660.png)
 
 
