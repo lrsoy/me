@@ -543,3 +543,138 @@ vi.mock("~/config", async (importOriginal) => {
 ![](/public/vitest/b2cb868457de7a741bd98a501f2a660.png)
 
 
+
+## 三、环境变量、全局global、间接输入层
+
+### 3.1 环境变量
+
+环境变量，在开发过程中，我们会在项目里面创建`.env` 文件或者是其他的文件，在里面配置环境变量，最常见的就是项目的`数据请求地址`，我们需要在不同环境，创建不同的环境变量，配置不同环境的请求地址，比如测试环境、开发环境、生产环境等。
+
+* nodejs环境变量
+
+```ts
+// env.ts
+export const testNodeEnv = () => {
+  return Number(process.env.USER_AGE) * 2
+}
+```
+
+```ts
+// env.spec.ts
+import { describe, expect, it, vi, afterEach } from 'vitest'
+import { testNodeEnv } from './env'
+/**
+ * 第一种方式：直接对nodejs的环境变量直接进行赋值，然后进行测试
+ * 缺点: 直接对环境变量进行赋值，在其他测试ks里面在次测试这个变量，值就是上一次更改的值没有重新初始化
+ */
+it.skip("测试nodejs环境变量 01 方式一", () => {
+  // 准备数据： 通过直接赋值的方式，对指定的环境变量进行赋值
+  process.env.USER_AGE = "2"
+  // 调用
+  const r = testNodeEnv()
+  // 验证
+  expect(r).toBe(4)
+})
+
+/**
+ * 第二种方式: 通过vitest提供的api ,vi.stubEnv，配合vi.unstubAllEnvs()一起使用
+ */
+afterEach(() => {
+  // 拆卸: 配合 将换将变量恢复
+  vi.unstubAllEnvs()
+  console.log(process.env.USER_AGE);
+})
+it('测试nodejs环境变量 02 方式二', () => {
+  // 准备数据: 通过使用vitest提供的api
+  vi.stubEnv('USER_AGE', "2")
+  // 调用
+  const r = testNodeEnv()
+  // 验证
+  expect(r).toBe(4)
+  // 拆卸: 配合 将换将变量恢复
+  // vi.unstubAllEnvs()
+})
+```
+
+测试nodejs环境变量的第二种方式是经常使用到的，并且他是可以将环境变量恢复到原有值的
+
+![](/public/vitest/616909c1a6e7be318f54e8e99b1a156.png)
+
+
+
+* vite&webpack
+
+```ts
+// vite.ts
+export const testViteEnv = () => {
+  return Number(import.meta.env.VITE_USER_AGE) * 2
+}
+```
+
+```ts
+// vite.spec.ts
+import { describe, it, vi, expect, afterEach } from 'vitest'
+import { testViteEnv } from './vite'
+
+
+afterEach(() => {
+  vi.unstubAllEnvs()
+  console.log(import.meta.env.VITE_USER_AGE);
+})
+it("测试import.meta.env", () => {
+
+  // 准备数据
+  vi.stubEnv('VITE_USER_AGE', '4')
+
+  // 调用
+  const r = testViteEnv()
+
+  // 验证
+  expect(r).toBe(8)
+
+})
+
+
+```
+
+需要注意的就是，在不同项目中配置环境变量，命名也是有所不同的，但是获取环境变量的方式一般是：
+
+Vue CLI 和 Vue 2/3 项目：
+
+- 在Vue CLI 3及以上版本中，可以通过Webpack的**process.env**对象来获取环境变量。例如，可以使用**process.env.VUE_APP_API_URL**来获取名为**VUE_APP_API_URL**的环境变量的值。
+
+Create React App (CRA) 和 React 项目：
+
+- 在Create React App中，默认使用Webpack和Babel进行构建。可以通过**process.env**对象来获取环境变量。例如，可以使用**process.env.REACT_APP_API_URL**来获取名为**REACT_APP_API_URL**的环境变量的值。
+
+Vite 项目：
+
+- 在Vite中，可以通过**import.meta.env**来访问环境变量。例如，可以使用**import.meta.env.VITE_API_URL**来获取名为**VITE_API_URL**的环境变量的值。
+
+需要注意的是，以上方式仅适用于在代码中直接访问环境变量。在构建过程中，这些环境变量会根据所定义的环境变量文件（如`.env`、`.env.development`、`.env.production`等）进行注入。
+
+在构建过程中，Webpack或Vite会读取对应的环境变量文件，并将其中定义的变量注入到应用程序中，以便在代码中使用。不同的构建工具和配置可能有所不同，但通常会遵循相应的约定和配置规则。
+
+总结：
+
+- Vue CLI和Vue 2/3项目可以通过Webpack的**process.env**对象获取环境变量。
+- Create React App (CRA)和React项目可以通过Webpack的**process.env**对象获取环境变量。
+- Vite项目可以通过**import.meta.env**来访问环境变量。
+- 构建过程中，Webpack或Vite会根据环境变量文件将变量注入到应用程序中，以便在代码中使用。
+
+### 3.2 全局global
+
+
+
+
+
+### 3.3 间接输入层
+
+
+
+
+
+## 四、依赖注入
+
+
+
