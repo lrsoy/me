@@ -664,17 +664,42 @@ Vite 项目：
 
 ### 3.2 全局global
 
+全局变量，例如挂载到window上的都属于全局属性，在任何地方代码里都是可以，当测试的时候可以通过vitest提供的api去测试
 
+```ts
+// global.ts
+export const testGlobalApi = () => {
+  return innerHeight * 2
+}
+```
 
+```ts
+// global.spec.ts
+import { describe, it, vi, expect } from 'vitest'
+import { testGlobalApi } from './global'
 
+it('测试全局 api 例：window innerHeight', () => {
+  // 准备数据
+  vi.stubGlobal('innerHeight', 4)
+  // 调用
+  const r = testGlobalApi()
+  // 验证
+  expect(r).toBe(8)
+  // 拆卸
+})
+```
+
+通过使用**vi.stubGlobal**对全局属性进行修改，然后修改后可以通过**unstubAllGlobals**恢复原有的值
 
 ### 3.3 间接输入层
 
-
+..... 待补充，没理解
 
 
 
 ## 四、依赖注入
+
+
 
 
 
