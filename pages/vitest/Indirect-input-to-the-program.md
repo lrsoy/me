@@ -693,139 +693,187 @@ it('测试全局 api 例：window innerHeight', () => {
 
 ### 3.3 间接输入层
 
-..... 待补充，没理解
-
 
 
 ## 四、依赖注入
 
+依赖注入（Dependency Injection，DI）是一种设计模式和软件开发技术，用于解耦组件之间的依赖关系。它的核心思想是将依赖的创建和管理责任从被依赖的对象（被注入对象）转移到外部的依赖注入容器（或者称为注入器）中。
 
+在依赖注入中，组件不再直接创建或获取它所依赖的对象，而是通过外部的注入器将依赖对象注入到组件中。这样可以实现组件的解耦，提高代码的灵活性、可测试性和可维护性。
 
+简单的来说**无论是通过类还是函数，依赖注入的核心思想是将依赖项封装起来并通过参数传递给需要解耦的函数或组件**
 
+## 五、依赖倒置原则(DIP)
 
-## 五、常见的解耦技术和模式
+依赖倒置原则（Dependence Inversion Principle）是程序要依赖于抽象接口，不要依赖于具体实现。
 
-常见的解耦方式有多种，以下列举了一些常用的解耦技术和模式：
+依赖倒置原则：
 
-1. 依赖注入（Dependency Injection）：通过将依赖的对象或服务注入到组件中，而不是在组件内部直接创建或获取依赖，实现组件与依赖之间的解耦。依赖注入可以通过构造函数注入、属性注入或方法注入等方式实现。
-2. 适配器模式（Adapter Pattern）：通过封装一个适配器来转换一个接口或类的方法，以适应另一个接口或类的调用方式，从而解耦两者之间的依赖关系。
-3. 观察者模式（Observer Pattern）：定义了一种一对多的依赖关系，使得当一个对象的状态发生变化时，所有依赖于它的对象都会得到通知。通过解耦观察者和被观察者之间的直接依赖关系，实现对象之间的松耦合。
-4. 发布-订阅模式（Publish-Subscribe Pattern）：通过使用一个调度中心（也称为事件总线）来实现发布者（发布事件）和订阅者（订阅事件）之间的解耦。发布者不需要直接了解订阅者，只需要发布事件，而订阅者通过订阅感兴趣的事件来接收通知。
-5. 中介者模式（Mediator Pattern）：通过引入一个中介者对象，将组件之间的通信转化为通过中介者进行的间接通信，从而解耦组件之间的直接依赖关系。
-6. 接口隔离原则（Interface Segregation Principle）：将接口分离为多个较小的接口，以适应不同的客户端需求。这样可以避免客户端依赖于不需要的接口，从而实现解耦。
-7. 依赖倒置原则（Dependency Inversion Principle）：高层模块不应该依赖于低层模块，而是应该依赖于抽象。通过依赖于抽象而不是具体实现，实现模块之间的解耦。
+* 高层次的模块不应该依赖低层次模块，二者都应该依赖起抽象接口
+* 抽象接口不应该依赖于具体实现，而具体实现应该依赖抽象接口
 
-这些是常见的解耦方式和设计原则，它们可以在不同的场景中用于减少组件之间的耦合度，提高代码的可维护性、可测试性和可扩展性。具体选择哪种方式取决于具体的应用场景和需求
+在遇到需要解耦的情况，可以考虑使用**依赖倒置原则**，通过类来实现抽象接口，来减少高层模块对低层模块的直接依赖，以下是指导原则
 
-### 5.1  依赖注入
+* 确定高层模块和低层模块：首先要明确哪些是低层模块，以便于更好的使用**依赖倒置原则**
+* 定义抽象接口**interface**
+* 使用**class(类)**实现**接口(interface)**：在高层模块中通过类来实现抽象接口，这样高层模块就可以依赖于抽象接口而不是具体的底层实现
+* 使用**依赖注入**传递**依赖**
 
-依赖注入的思想：依赖注入通过将依赖对象或服务注入到组件中，而不是在组件内部直接创建或获取依赖，实现组件与依赖之间的解耦，简单的来说，**无论是通过类还是函数，依赖注入的核心思想是将依赖项封装起来并通过参数传递给需要解耦的函数或组件**
-
-示例代码：
+例1：
 
 ```ts
 import { readFileSync } from 'fs'
-export class FileFs {
-    getFilePath(path) {
-        return readFileSync(path,{ encoding: 'utf-8' })
+
+export function readAndProcessFile(filePath: string) {
+  const content: string = readFileSync(filePath, { encoding: 'utf-8' })
+  return content + "=> test unit"
+}
+```
+
+上面是一段通过使用nodejs里面的fs模块获取文件内容，从这段代码中看，**fs**和**readFileSync**属于依赖项，而**readAndProcessFile**属于高层模块，readAndProcessFile强依赖fs模块，**利用依赖注入与依赖倒置原则来解耦**
+
+```ts
+import { readFileSync } from 'fs'
+// 抽象接口
+export interface Fileint {
+  readFile(filePath: string): string;
+}
+// 类去实现抽象接口
+export class FileReader implements Fileint {
+  readFile(filePath: string): string {
+    return readFileSync(filePath, { encoding: 'utf-8' });
+  }
+}
+// 高层模块
+export function readAndProcessFile(filePath: string, fileReader: Fileint) {
+  const content: string = fileReader.readFile(filePath)
+  return content + "=> test unit"
+}
+
+
+const files = new FileReader()
+// 依赖注入，将低层模块通过参数方式传入高层模块
+readAndProcessFile('./test', files)
+```
+
+
+
+### 5.1 使用mock与中间层的方式解决程序间接输入
+
+* 使用中间层的方式，由于函数处理的逻辑是依赖于间接输入的，也就是**fs模块**，将这部分的代码抽离出去，通过mock的方式进行测试
+
+```ts
+// file.ts
+import { interlayer } from './config'
+
+// 不解决耦合问题
+export function readAndProcessFilePt(filePath: string) {
+  const content: string = interlayer(filePath)
+  return content + "=> test unit"
+}
+```
+
+```ts
+// config.ts
+import { readFileSync } from 'fs'
+export const interlayer = (filePath: string) => {
+  return readFileSync(filePath, { encoding: 'utf-8' })
+}
+```
+
+```ts
+// file.spec.ts
+import { describe, it, vi, expect } from 'vitest'
+import { readAndProcessFilePt } from './file'
+vi.mock('./config', () => {
+  return {
+    interlayer: () => {
+      return '测试'
     }
+  }
+})
+it("依赖注入, 不解决耦合", () => {
+  // 调用
+  const r = readAndProcessFilePt('./test')
+  // 验证
+  expect(r).toBe('测试=> test unit')
+
+})
+```
+
+* 不使用中间层
+
+```ts
+// file.ts
+import { readFileSync } from 'fs'
+// 不使用中间层 直接通过mock进行测试
+export function readAndProcessFileMock(filePath: string) {
+  const content: string = readFileSync(filePath, { encoding: 'utf-8' })
+  return content + "=> test unit"
 }
 ```
 
 ```ts
-import { FileFs } from './FileFs'
+// file.spec.ts
+import { describe, it, vi, expect } from 'vitest'
+import { readAndProcessFileMock } from './file'
+import * as fs from 'fs'
 
-// 将需要解耦的依赖以参数的形式传入
-export const readAndPath(filePath,cab) {
-    const content = cab.getFilePath(path)
-    return `${content}- test unit`
-}
-// 调用
-const ua = readAndPath('./test',new FileFs())
+vi.mock('fs', () => {
+  return {
+    readFileSync: vi.fn(() => 'fs')
+  }
+})
+it.only('依赖注入，直接使用mock进行测试', () => {
+
+  // 准备数据
+  // 调用
+  const r = readAndProcessFileMock('./test')
+
+  // 验证
+  expect(r).toBe('fs=> test unit')
+})
 ```
 
-
-
-### 5.2 适配器模式
-
-适配器模式：适配器模式通过封装一个适配器来转换一个接口或类的方法，以适应另一个接口或类的调用方式，从而解耦两者之间的依赖关系，**适配器模式可以应用于许多场景，只要涉及到不同接口之间的兼容性问题，或者需要进行接口转换、数据格式转换等情况，适配器模式都可以起到很好的作用，适配器的主要目的是将不兼容的接口转换为兼容的接口**。
-
-
-
-示例代码：
+### 5.2 依赖倒置原则解决程序间接输入(class&function)
 
 ```ts
-// 跨平台API兼容
-// iOS DeviceInfo API
-class iOSDeviceInfo {
-  getDeviceId() {
-    // 获取 iOS 设备 ID 的具体实现
-  }
+// file.ts
+import { Fileint } from './type'
+// 解决耦合 加入接口限制
+export function readAndProcessFileCabInterface(filePath: string, cab: Fileint) {
+  const content: string = cab.read(filePath)
 
-  getDeviceName() {
-    // 获取 iOS 设备名称的具体实现
-  }
+  return content + "=> test unit"
 }
-
-// Android DeviceInfo API
-class AndroidDeviceInfo {
-  getDeviceId() {
-    // 获取 Android 设备 ID 的具体实现
-  }
-
-  getDeviceName() {
-    // 获取 Android 设备名称的具体实现
-  }
-}
-
-// 适配器
-class DeviceInfoAdapter {
-  constructor(deviceInfo) {
-    this.deviceInfo = deviceInfo;
-  }
-
-  getUniqueId() {
-    return this.deviceInfo.getDeviceId();
-  }
-
-  getName() {
-    return this.deviceInfo.getDeviceName();
-  }
-}
-
-// 使用适配器
-const iOSDevice = new iOSDeviceInfo();
-const androidDevice = new AndroidDeviceInfo();
-
-const iOSAdapter = new DeviceInfoAdapter(iOSDevice);
-const androidAdapter = new DeviceInfoAdapter(androidDevice);
-
-console.log(iOSAdapter.getUniqueId()); // 获取 iOS 设备 ID
-console.log(androidAdapter.getName()); // 获取 Android 设备名称
-
 ```
 
-说白了就是将不同平台的代码实现，然后在将他们集成到一个类里面，然后在调用的时候可以统一进行调用。
+```ts
+// type.ts
+export interface Fileint {
+  read(filePath: string): string;
+}
+```
 
+```ts
+// file.spec.ts
+import { describe, it, vi, expect } from 'vitest'
+import { readAndProcessFileCabInterface } from './file'
+import { Fileint } from './type'
+it('依赖注入，依赖倒置原则', () => {
 
+  // 准备数据
+  class FileReader implements Fileint {
+    read(filePath: string) {
+      return 'fri'
+    }
+  }
+  // 调用
+  const r = readAndProcessFileCabInterface('./test', new FileReader())
 
-### 5.3 观察者模式
+  // 验证
+  expect(r).toBe('fri=> test unit')
+})
 
-
-
-### 5.4 发布-订阅模式
-
-
-
-### 5.5 中介者模式
-
-
-
-### 5.6 接口隔离原则
-
-
-
-### 5.7 依赖倒置原则
-
-
+```
 
