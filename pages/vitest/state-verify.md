@@ -1,6 +1,6 @@
 ---
-  title: 前端测试框架 Vitest 验证(状态验证)
-  display: 验证 —— 状态验证
+  title: 前端测试框架 Vitest 
+  display: 验证
   image: /image/banner1.jpg
   description: 
   subtitle: 
@@ -194,9 +194,118 @@ it("状态存在于依赖中", () => {
 
 
 
+## 行为验证
+
+定义：验证对象之间的交互是否按照预期进行
+
+对象之间的交互：**调用函数或者是调用对象里面的某一个方法**
+
+行为验证背后的逻辑：状态的改变是由交互引起的，如果所有的交互(调用)都正确，那就可以推断最终的状态也不会错。
+
+```ts
+// behavior.ts
+import { Databases } from './config'
+export class UserService {
+  constructor(private databases: Databases) { }
+  createUser(name: string) {
+    const id = Math.floor(Math.random() * 1000)
+    const userObj = { id, name }
+    this.databases.addUser(userObj)
+    return userObj
+  }
+}
+```
+
+```ts
+// config.ts
+interface User {}
+export class Databases {
+  private database: User[] = []
+  addUser(user: User): void {}
+  getDatabase(id: number): User | undefined {}
+}
+```
+
+当前例子里面，在做测试的时候不在去验证`Databases`里面database的结果，而是去验证`databases.addUser`是否按照预期去完成交互
+
+### 2.1 验证交互与第三方API
 
 
 
+### 2.2 Mock、Spy、Stub分别代表什么 
+
+1. `Mock(模拟)`： 
+
+   在测试中，mock是指模拟或者替代真实对象的行为(逻辑)，通常用来模拟外部依赖，网络请求、数据库连接。
+
+   例如：
+
+   ```ts
+   import { vi, it, expect } from 'vitest'
+   import { questSentences } from './api'
+   // 模拟第三方api
+   vi.mock('axios')
+   it('第三方API',() => {
+       vi.mocked(axios).mockResolvedValue({ data: { code: 200 } })
+       const r = await questSentences()
+       expect(r).toBeTruthy()
+   })
+   /**
+    * 模拟：
+    * 当一个函数依赖另一个函数，那可以通过mock来模拟这个依赖函数，因为这个依赖函数不需要被测
+    * 所以可以直接通过mock模拟
+    */
+   vi.mock('~config',() =>{
+       return {
+           num:() => 1
+       }
+   })
+   it('依赖',() => {
+       // 直接调用要测试的函数
+       // 验证即可
+   })
+   ```
+
+2. `Spy(间谍)`:
+
+   Spy是一种测试工具，用来监听函数的调用和参数的传递，它可以记录函数调用的次数，Spy通常用于验证函数或对象方法是否按预期被调用，通过Spy，可以收集有关函数调用情况的信息，用于测试验证等目的。
+
+   例如：
+
+   ```ts
+   // 验证对象方法是否被调用：以上面class为例子 UserService
+   import { vi, it, expect } from 'vitest'
+
+   it("验证函数/方法有没有按照预期调用",() =>{
+       const databases = new Databases()
+       
+       // 方式一：创建一个模拟（mock）收集函数相关信息
+       vi.spyOn(databases, 'addUser')
+       // 方式二：vi.fn() 创建函数模拟（mock）依然可以记录信息
+       Databases.prototype.addUser = vi.fn()
+       
+       const userService = new UserService(databases)
+       userService.createUser('ctr')
+     	expect(databases.addUser).toBeCalled()
+   })
+   ```
+
+   ```ts
+   // 验证第三方API
+
+   ```
+
+3. `Stub存根`：
+
+   Stub是一个轻量级的替代对象，它提供预定义的输出，用于代替真实对象或者函数，Stub通常用于模拟函数的行为，使得被测的代码在测试时候不依赖真实实现，与Mock不同，Stub通常不会验证函数调用的次数或者参数，只关心预定义的输出是否符合预期。
+
+### 2.3 vi.mock、vi.spyOn、vi.fn
+
+#### 2.3.1 vi.spyOn
+
+spyOn的作用：用来创建一个mock函数，它可以捕获mock的函数调用的情况，还可以正常执行呗
 
 
+
+### 2.4 行为验证缺点以及使用场景
 
