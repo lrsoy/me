@@ -1,5 +1,5 @@
 ---
-  title: 前端测试框架 Vitest 
+  title: 前端测试框架 Vitest 测试四部曲(验证)
   display: 验证
   image: /image/banner1.jpg
   description: 
@@ -228,11 +228,7 @@ export class Databases {
 
 当前例子里面，在做测试的时候不在去验证`Databases`里面database的结果，而是去验证`databases.addUser`是否按照预期去完成交互
 
-### 2.1 验证交互与第三方API
-
-
-
-### 2.2 Mock、Spy、Stub分别代表什么 
+### 2.1 Mock、Spy、Stub分别代表什么 
 
 1. `Mock(模拟)`： 
 
@@ -291,21 +287,71 @@ export class Databases {
    ```
 
    ```ts
-   // 验证第三方API
-
+   // 验证第三方API lodashConfig.ts
+   import { difference } from 'lodash'
+   export const arrDifference = (arr1: Array<number>, arr2: Array<number>) => {
+     difference(arr1, arr2)
+   }
    ```
+   ```ts
+   // behavior.spec.ts
+   import { describe, it, vi, expect } from 'vitest'
+   import { arrDifference } from './lodashConfig'
+   import { difference } from 'lodash'
+   // 第三方库
+   vi.mock("lodash", () => {
+     return {
+       // 区别于stub,stub 针对的是值的返回
+       difference: vi.fn()
+     }
+   })
+   it('第三方库api', () => {
+     // 准备数据
+     const arr1 = [1, 4, 6, 8, 9]
+     const arr2 = [4, 6, 8, 5]
+     // 调用
+     arrDifference(arr1, arr2)
+     // 验证
+     expect(difference).toBeCalled()
+   })
+   ```
+
+   ​
 
 3. `Stub存根`：
 
-   Stub是一个轻量级的替代对象，它提供预定义的输出，用于代替真实对象或者函数，Stub通常用于模拟函数的行为，使得被测的代码在测试时候不依赖真实实现，与Mock不同，Stub通常不会验证函数调用的次数或者参数，只关心预定义的输出是否符合预期。
+   Stub是一个轻量级的替代对象，它提供预定义的输出，用于代替真实对象或者函数，Stub通常用于模拟函数的行为，使得被测的代码在测试时候不依赖真实实现，与Mock不同，Stub通常不会验证函数调用的次数或者参数，只关心预定义的输出是否符合预期，`简单来说它只提供具体值`。
+
+   例如：
+
+   ```ts
+   // 替代全局API 直接对innerHeight 进行赋值
+   // global.ts
+   export const testGlobalApi = () => {
+     return innerHeight * 2
+   }
+   ```
+
+   ```ts
+   // global.spec.ts
+   import { describe, it, vi, expect } from 'vitest'
+   import { testGlobalApi } from './global'
+   it('测试全局 api 例：window innerHeight', () => {
+     // 准备数据
+     vi.stubGlobal('innerHeight', 4)
+     // 调用
+     const r = testGlobalApi()
+     // 验证
+     expect(r).toBe(8)
+     // 拆卸
+   })
+   ```
+
+   stub不仅仅可以使用stubGlobal这样的API去替代，不同场景使用不同的方式，选择合理方式即可
+
+### 2.2 验证交互与第三方API
 
 ### 2.3 vi.mock、vi.spyOn、vi.fn
-
-#### 2.3.1 vi.spyOn
-
-spyOn的作用：用来创建一个mock函数，它可以捕获mock的函数调用的情况，还可以正常执行呗
-
-
 
 ### 2.4 行为验证缺点以及使用场景
 
