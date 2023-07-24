@@ -19,6 +19,35 @@
 
 
 
+<CodeGroup>
+  <CodeGroupItem title="PNPM" active>
+
+```bash
+git init
+pnpm init
+```
+
+  </CodeGroupItem>
+
+  <CodeGroupItem title="YARN">
+
+```bash
+git init
+yarn init
+```
+
+  </CodeGroupItem>
+
+  <CodeGroupItem title="NPM">
+
+```bash
+git init
+npm init
+```
+
+  </CodeGroupItem>
+</CodeGroup>
+
 ## 状态验证
 
 状态验证，不关心具体实现逻辑，只关心最终结果，目的就是为了验证程序的状态是否与预期的结果相符，这种验证方式其实是一种黑盒验证。

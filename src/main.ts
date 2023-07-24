@@ -3,6 +3,7 @@ import './styles/markdown.css'
 import '@unocss/reset/tailwind.css'
 import 'uno.css'
 import './styles/post.css'
+import './styles/code-group.css'
 import 'aos/dist/aos.css'
 
 import autoRoutes from 'pages-generated'
@@ -12,6 +13,7 @@ import dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat.js'
 import App from './App.vue'
 import aos from 'aos'
+import { Badge, CodeGroup, CodeGroupItem } from '~/components/global/index'
 aos.init()
 const routes = autoRoutes.map((i) => {
   return {
@@ -29,12 +31,15 @@ const scrollBehavior = (to: any, from: any, savedPosition: any) => {
     return { top: 0 }
 }
 
+
 export const createApp = ViteSSG(
   App,
   { routes, scrollBehavior },
-  ({ router, isClient }) => {
+  ({ app, router, isClient }) => {
     dayjs.extend(LocalizedFormat)
-
+    app.component('Badge', Badge)
+    app.component('CodeGroup', CodeGroup)
+    app.component('CodeGroupItem', CodeGroupItem)
     if (isClient) {
       router.beforeEach(() => { NProgress.start() })
       router.afterEach(() => { NProgress.done() })

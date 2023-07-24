@@ -9,6 +9,8 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Badge: typeof import('./src/components/global/Badge.vue')['default']
+    CodeGroupItem: typeof import('./src/components/global/CodeGroupItem.vue')['default']
     DelayTeleport: typeof import('./src/components/DelayTeleport.vue')['default']
     Github: typeof import('./src/components/icons/Github.vue')['default']
     Home: typeof import('./src/components/Home.vue')['default']
