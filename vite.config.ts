@@ -76,7 +76,7 @@ export default defineConfig({
       svgo: false,
     }),
     Markdown({
-      wrapperComponent: 'post',
+      wrapperComponent: 'NewPost',
       wrapperClasses: (id, code) => {
         return code.includes('@layout-full-width') ? 'layout-full-width' : 'prose  slide-enter-content'
       },

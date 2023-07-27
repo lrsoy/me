@@ -1,10 +1,18 @@
-import './styles/index.css'
-import './styles/markdown.css'
+// import './styles/index.css'
+// import './styles/markdown.css'
+
+import './styles/new-style/index.css'
+
 import '@unocss/reset/tailwind.css'
 import 'uno.css'
-import './styles/post.css'
-import './styles/code-group.css'
+
+import './styles/new-style/post.css'
+import './styles/new-style/markdown.css'
+import './styles/new-style/code-group.css'
+// import './styles/post.css'
+// import './styles/code-group.css'
 import 'aos/dist/aos.css'
+import 'animate.css'
 
 import autoRoutes from 'pages-generated'
 import NProgress from 'nprogress'

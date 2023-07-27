@@ -1,0 +1,99 @@
+/* 全局css变量 */
+:root {
+  /* --font-family-code: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; */
+  --code-bg-color: #282c34;
+  --code-ln-color: #9e9e9e;
+  --code-hl-bg-color: rgba(0, 0, 0, 0.66);
+  --code-ln-wrapper-width: 3.5rem;
+}
+/* 进度条颜色 */
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background-image: linear-gradient(45deg, #30cfd0 0%, #330867 100%);
+  opacity: 0.75;
+  position: fixed;
+  z-index: 1031;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+}
+
+@keyframes slide-enter {
+  0% {
+    transform: translateY(10px);
+    opacity: 0
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 100
+  }
+}
+@media (prefers-reduced-motion:no-preference) {
+  [slide-enter],
+  .slide-enter,
+  .slide-enter-content > * {
+    --enter-stage: 0;
+    --enter-step: 120ms;
+    --enter-initial: 0ms;
+    animation: slide-enter 1s both 1;
+    animation-delay: calc(var(--enter-initial) + var(--enter-stage) * var(--enter-step));
+  }
+
+  .slide-enter-content > *:nth-child(1) { --enter-stage: 1; }
+  .slide-enter-content > *:nth-child(2) { --enter-stage: 2; }
+  .slide-enter-content > *:nth-child(3) { --enter-stage: 3; }
+  .slide-enter-content > *:nth-child(4) { --enter-stage: 4; }
+  .slide-enter-content > *:nth-child(5) { --enter-stage: 5; }
+  .slide-enter-content > *:nth-child(6) { --enter-stage: 6; }
+  .slide-enter-content > *:nth-child(7) { --enter-stage: 7; }
+  .slide-enter-content > *:nth-child(8) { --enter-stage: 8; }
+  .slide-enter-content > *:nth-child(9) { --enter-stage: 9; }
+  .slide-enter-content > *:nth-child(10) { --enter-stage: 10; }
+  .slide-enter-content > *:nth-child(11) { --enter-stage: 11; }
+  .slide-enter-content > *:nth-child(12) { --enter-stage: 12; }
+  .slide-enter-content > *:nth-child(13) { --enter-stage: 13; }
+  .slide-enter-content > *:nth-child(14) { --enter-stage: 14; }
+  .slide-enter-content > *:nth-child(15) { --enter-stage: 15; }
+  .slide-enter-content > *:nth-child(16) { --enter-stage: 16; }
+  .slide-enter-content > *:nth-child(17) { --enter-stage: 17; }
+  .slide-enter-content > *:nth-child(18) { --enter-stage: 18; }
+  .slide-enter-content > *:nth-child(19) { --enter-stage: 19; }
+  .slide-enter-content > *:nth-child(20) { --enter-stage: 20; }
+}
+
+.layout-full-width {
+  width: 100%;
+}
+html::-webkit-scrollbar {
+  width: 0px;
+}
+
+html::-webkit-scrollbar:horizontal {
+  height: 0px;
+}
+
+html::-webkit-scrollbar-track,
+html::-webkit-scrollbar-corner {
+  background: #ffffff;
+  border-radius: 10px;
+}
+
+html::-webkit-scrollbar-thumb {
+  background:  #eee;
+  border-radius: 10px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: #bbb;
+}
+
+body {
+  /* background-color: #0e1225; */
+  /* background-color: rgb(246,246,246); */
+  /* background-color: #efeeee; */
+}

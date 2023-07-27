@@ -1,0 +1,267 @@
+.prose {
+  width: 750px;
+  line-height: 1.75;
+  box-sizing: border-box;
+  border-radius: 5px;
+  color: #262626;
+  margin: 0 auto;
+  font-family: 'Chinese Quote', 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 15px;
+}
+
+.prose strong {
+  font-size: 16px;
+  color: orchid;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.prose strong:hover {
+  color: olivedrab;
+}
+
+.prose ol[type="A"] {
+  --list-counter-style: upper-alpha;
+}
+.prose ol[type="a"] {
+  --list-counter-style: lower-alpha;
+}
+.prose ol[type="A s"] {
+  --list-counter-style: upper-alpha;
+}
+.prose ol[type="a s"] {
+  --list-counter-style: lower-alpha;
+}
+.prose ol[type="I"] {
+  --list-counter-style: upper-roman;
+}
+.prose ol[type="i"] {
+  --list-counter-style: lower-roman;
+}
+.prose ol[type="I s"] {
+  --list-counter-style: upper-roman;
+}
+.prose ol[type="i s"] {
+  --list-counter-style: lower-roman;
+}
+.prose ol[type="1"] {
+  --list-counter-style: decimal;
+}
+
+.prose ol > li {
+  position: relative;
+  padding-left: 1.5em;
+}
+.prose ol > li::before {
+  content: counter(list-item, var(--list-counter-style, decimal)) ".";
+  position: absolute;
+  font-weight: 400;
+  left: 0;
+}
+.prose ul > li {
+  position: relative;
+  padding-left: 1.5em;
+}
+.prose ul > li::before {
+  content: "";
+  position: absolute;
+  background-color: #000000;
+  border-radius: 50%;
+  width: 0.375em;
+  height: 0.375em;
+  top: calc(0.875em - 0.1875em);
+  left: 0.25em;
+}
+
+.prose blockquote {
+  font-weight: 500;
+  /* font-style: italic; */
+  color: inherit;
+  border-left-width: 0.25rem;
+  border-color: plum;
+  background-color: #f3f4f5;
+  quotes: "\201C""\201D""\2018""\2019";
+  margin-top: 1.6em;
+  margin-bottom: 1.6em;
+  padding-left: 1em;
+}
+/* .prose blockquote p:first-of-type::before {
+  content: open-quote;
+}
+.prose blockquote p:last-of-type::after {
+  content: close-quote;
+} */
+
+.prose h1 {
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 36px;
+  margin: 26px 0 10px 0;
+}
+
+.prose h2 {
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 32px;
+  margin: 21px 0 5px 0;
+}
+.prose h3 {
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 28px;
+  margin: 16px 0 5px 0;
+}
+.prose h4 {
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 24px;
+  margin: 10px 0 5px 0;
+}
+.prose h5 {
+  font-size: 15px !important;
+  font-weight: 800;
+  line-height: 24px;
+  margin: 8px 0 5px 0;
+}
+.prose h6 {
+  line-height: 24px;
+  font-weight: 800;
+  font-size: 15px !important;
+  margin: 8px 0 5px 0;
+}
+
+.prose table {
+  border: 1px solid #d1d5db;
+  box-sizing: border-box;
+  width: 100%;
+  table-layout: auto;
+  text-align: left;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  font-size: 0.875em;
+  line-height: 1.7142857;
+  border-collapse: collapse;
+
+}
+.prose thead {
+  color: #111827;
+  font-weight: 600;
+  border-bottom-width: 1px;
+  border-bottom-color: #d1d5db;
+  background-color: #d1d5db;
+}
+.prose thead th {
+  vertical-align: bottom;
+  padding-right: 0.5714286em;
+  padding-bottom: 0.5714286em;
+  padding-left: 0.5714286em;
+  border: 1px solid #e5e7eb;
+}
+.prose tbody tr {
+  border-bottom-width: 1px;
+  border-bottom-color: #e5e7eb;
+}
+.prose tbody tr:last-child {
+  border-bottom-width: 0;
+}
+.prose tbody td {
+  vertical-align: top;
+  padding-top: 0.5714286em;
+  padding-right: 0.5714286em;
+  padding-bottom: 0.5714286em;
+  padding-left: 0.5714286em;
+  border: 1px solid #e5e7eb;
+}
+
+.prose p {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+.prose img {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+.prose video {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.prose figure {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+.prose figure > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.prose h2 code {
+  font-size: 0.875em;
+}
+.prose h3 code {
+  font-size: 0.9em;
+}
+.prose ol {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  list-style-type: none;
+}
+.prose ul {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  list-style-type: none;
+}
+.prose li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.prose > ul > li p {
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+}
+.prose > ol > li > *:first-child {
+  margin-top: 1.25em;
+}
+.prose > ol > li > *:last-child {
+  margin-bottom: 1.25em;
+}
+.prose ul ul, .prose ul ol, .prose ol ul, .prose ol ol {
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+}
+.prose hr + * {
+  margin-top: 0;
+}
+.prose h2 + * {
+  margin-top: 0;
+}
+.prose h3 + * {
+  margin-top: 0;
+}
+.prose h4 + * {
+  margin-top: 0;
+}
+
+.prose thead th:first-child {
+  padding-left: 0;
+}
+.prose thead th:last-child {
+  padding-right: 0;
+}
+.prose tbody td:first-child {
+  padding-left: 0;
+}
+.prose tbody td:last-child {
+  padding-right: 0;
+}
+.prose > :first-child {
+  margin-top: 0;
+}
+.prose > :last-child {
+  margin-bottom: 0;
+}
+.prose b {
+  color: var(--fg-deep);
+}
+.prose em {
+  color: inherit;
+}
