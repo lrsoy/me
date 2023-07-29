@@ -1,6 +1,7 @@
 ---
 title: lrsoy_
-display: '知识汇总'
+display: ''
+homeLogo: '/image/logoHomeLogo.jpg'
 notes: 
   - name: 'HTML'
     link: "/html"
@@ -114,14 +115,15 @@ notes:
     link: '/other'
     desc: '前端部署相关知识'
     icon: 'i-devicon-jenkins'
-    image: ''
+    image: '/image/sf.png'
     type: 'other'
   - name: 'vscode'
     link: '/vscode-plugin'
     desc: 'vscode 插件开发'
     icon: 'i-vscode-icons-file-type-vscode'
-    image: ''
+    image: '/image/sf.png'
     type: 'vscode-plugin'
 ---
+
 <!-- @layout-full-width -->
 <NewListNotes :notes="frontmatter.notes"/>

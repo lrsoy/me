@@ -9,6 +9,7 @@ export interface Frontmatter {
   author?: boolean
   display?: string
   duration?: string
+  homeLogo?: string
 }
 
 export interface Post {
@@ -23,6 +24,7 @@ export interface Post {
   radio?: boolean
   video?: boolean
   inperson?: boolean
+  homeLogo?: string
 }
 
 export interface SubNav {

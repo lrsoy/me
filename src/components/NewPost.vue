@@ -90,6 +90,8 @@ const link = computed(() => {
   }
   return i
 })
+console.log(frontmatter);
+
 </script>
 <template>
   <div class="NewPost">
@@ -110,14 +112,84 @@ const link = computed(() => {
       <slot />
       <div>
         <div class="side">
-          <div v-if="frontmatter?.toc" id="view_side" ref="viewSide" class="slide-enter"></div>
         </div>
       </div>
     </article>
+    <!-- class="slide-enter" -->
+    <div v-if="frontmatter?.toc" id="view_side" ref="viewSide" class="animate__animated animate__fadeInRight "></div>
   </div>
 </template>
 
 <style lang="scss">
+#view_side {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 260px;
+  height: calc(100% - 64px);
+  margin-top: 64px;
+  box-sizing: border-box;
+  border-left: 1px solid #eaecef;
+  overflow-x: auto;
+  direction: rtl;
+}
+
+#view_side::-webkit-scrollbar {
+  width: 2px;
+}
+
+#view_side::-webkit-scrollbar:horizontal {
+  height: 0px;
+}
+
+#view_side::-webkit-scrollbar-track,
+#view_side::-webkit-scrollbar-corner {
+  background: #eaecef;
+  /* background-image: linear-gradient(-225deg, #69EACB 0%, #EACCF8 48%, #6654F1 100%); */
+}
+
+#view_side::-webkit-scrollbar-thumb {
+  /* background-image: linear-gradient(45deg, #30cfd0 0%, #330867 100%); */
+  /* background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%); */
+  /* background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%); */
+  /* background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%); */
+  /* background-image: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%); */
+  background-image: linear-gradient(-225deg, #69EACB 0%, #EACCF8 48%, #6654F1 100%);
+}
+
+#view_side p {
+  font-size: 14px;
+  color: #262626;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 10px;
+  direction: ltr;
+}
+
+.table-of-contents ul {
+  line-height: 26px;
+  font-size: 14px;
+}
+
+.table-of-contents ul>li::before {
+  display: none;
+}
+
+.table-of-contents ul>li {
+  padding-left: 0.8rem;
+}
+
+.table-of-contents ul li a:hover {
+  text-decoration: underline;
+  font-weight: 800;
+}
+
+.table-of-contents ul li {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .NewPost {
   width: 100%;
   height: 100%;

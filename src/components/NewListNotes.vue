@@ -44,10 +44,10 @@ const sortList = computed(() => notes.map((m: notesItem) => {
 </script>
 <template>
   <div class="NewListNotes features">
-    <div class="item" v-for="(item, index) in sortList" :key="index">
+    <!-- <div class="item" v-for="(item, index) in sortList" :key="index">
       <article>
         <div class="entry-media">
-          <img :src="item.image" />
+          <img src="/image/CustomizeHomeFeatures01.jpg" />
         </div>
         <div class="ct">
           <div class="avatar">
@@ -62,7 +62,15 @@ const sortList = computed(() => notes.map((m: notesItem) => {
           </div>
         </div>
       </article>
-    </div>
+    </div> -->
+    <router-link v-for="(item, index) in notes" :key="index" :to="item.link" class="card">
+      <div class="img-box">
+        <img :src="item.image" :alt="item.desc">
+      </div>
+      <div class="inner">
+        <h2>{{ item.name }}</h2>
+      </div>
+    </router-link>
   </div>
 </template>
 
@@ -70,119 +78,166 @@ const sortList = computed(() => notes.map((m: notesItem) => {
 .NewListNotes {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
-  width: 960px;
+  gap: 50px;
+  width: 1150px;
   margin: 0 auto;
   box-sizing: border-box;
 
-  .item {
-    overflow: auto;
-    background-color: #ffffff;
-    cursor: pointer;
-    box-shadow: 0 0px 10px 0px rgb(0 0 0 / 15%);
-    border-radius: 5px;
+  .card {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 300px;
+    background-color: #DEE8C2;
+    border-radius: 20px;
+    transition: 0.5s;
 
-    img {
+
+
+    .inner {
+      position: absolute;
+      top: 252px;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: 35px;
+      padding: 0 30px;
+      text-align: center;
+      overflow: hidden;
+      transition: 0.5s;
+
+      h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2d7f0b;
+      }
     }
 
-    article {
-      width: 100%;
-      height: auto;
-      display: block;
+    .img-box {
+      position: absolute;
+      top: 20px;
+      width: 300px;
+      height: 220px;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: 0.5s;
 
-      .entry-media {
-        overflow: hidden;
-        height: 200px;
-      }
-
-      .ct {
+      img {
         width: 100%;
-        padding: 10px 10px 0 10px;
-        box-sizing: border-box;
-        display: block;
-
-        .avatar {
-          display: block;
-          position: relative;
-          z-index: 9;
-          margin-top: -24px;
-          margin-left: -10px;
-          width: 100px;
-          height: 36px;
-
-          img {
-            position: absolute;
-            margin: auto;
-            top: 0;
-            right: 0;
-            left: 0;
-            z-index: 9;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-          }
-
-          &::after {
-            background-image: url();
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-position: right top;
-            background-repeat: no-repeat;
-            background-size: 100px 30px;
-            background-image: url(/image/icon-img.svg);
-            top: -3px;
-            left: 50%;
-            transform: translate(-50%, 0);
-            z-index: -1;
-          }
-        }
-
-        .title {
-          h2 {
-            padding-bottom: 0;
-            font-size: 15px;
-            font-weight: 600;
-            letter-spacing: -0.2px;
-            border: none;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            box-sizing: border-box;
-            padding: 0 0 5px 0;
-            border-bottom: 1px solid #e7e9e8;
-          }
-        }
-
-        .null_alt {
-          display: flex;
-          height: 110px;
-          justify-content: center;
-          align-items: center;
-          font-size: 12px;
-          color: #8a8f8d;
-        }
-
-        .content {
-          // font-size: 13px;
-          // margin-top: 10px;
-          // // color: #aaa;
-          // -webkit-line-clamp: 2;
-          // -webkit-box-orient: vertical;
-          // white-space: normal;
-          // overflow: hidden;
-          // text-overflow: ellipsis;
-          // display: -webkit-box;
-          // margin-bottom: 10px;
-        }
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
       }
     }
   }
+
+  // .item {
+  //   overflow: auto;
+  //   background-color: #ffffff;
+  //   cursor: pointer;
+  //   box-shadow: 0 0px 10px 0px rgb(0 0 0 / 15%);
+  //   border-radius: 5px;
+
+  //   img {
+  //     width: 100%;
+  //     height: 100%;
+  //     object-fit: cover;
+  //   }
+
+  //   article {
+  //     width: 100%;
+  //     height: auto;
+  //     display: block;
+
+  //     .entry-media {
+  //       overflow: hidden;
+  //       height: 170px;
+  //     }
+
+  //     .ct {
+  //       width: 100%;
+  //       padding: 10px 10px 0 10px;
+  //       box-sizing: border-box;
+  //       display: block;
+
+  //       .avatar {
+  //         display: block;
+  //         position: relative;
+  //         z-index: 9;
+  //         margin-top: -24px;
+  //         margin-left: -10px;
+  //         width: 100px;
+  //         height: 36px;
+
+  //         img {
+  //           position: absolute;
+  //           margin: auto;
+  //           top: 0;
+  //           right: 0;
+  //           left: 0;
+  //           z-index: 9;
+  //           width: 30px;
+  //           height: 30px;
+  //           border-radius: 50%;
+  //         }
+
+  //         &::after {
+  //           background-image: url();
+  //           content: '';
+  //           position: absolute;
+  //           width: 100%;
+  //           height: 100%;
+  //           background-position: right top;
+  //           background-repeat: no-repeat;
+  //           background-size: 100px 30px;
+  //           background-image: url(/image/icon-img.svg);
+  //           top: -3px;
+  //           left: 50%;
+  //           transform: translate(-50%, 0);
+  //           z-index: -1;
+  //         }
+  //       }
+
+  //       .title {
+  //         h2 {
+  //           padding-bottom: 0;
+  //           font-size: 15px;
+  //           font-weight: 600;
+  //           letter-spacing: -0.2px;
+  //           border: none;
+  //           -webkit-line-clamp: 1;
+  //           -webkit-box-orient: vertical;
+  //           white-space: nowrap;
+  //           overflow: hidden;
+  //           text-overflow: ellipsis;
+  //           box-sizing: border-box;
+  //           padding: 0 0 5px 0;
+  //           border-bottom: 1px solid #e7e9e8;
+  //         }
+  //       }
+
+  //       .null_alt {
+  //         display: flex;
+  //         height: 110px;
+  //         justify-content: center;
+  //         align-items: center;
+  //         font-size: 12px;
+  //         color: #8a8f8d;
+  //       }
+
+  //       .content {
+  //         // font-size: 13px;
+  //         // margin-top: 10px;
+  //         // // color: #aaa;
+  //         // -webkit-line-clamp: 2;
+  //         // -webkit-box-orient: vertical;
+  //         // white-space: normal;
+  //         // overflow: hidden;
+  //         // text-overflow: ellipsis;
+  //         // display: -webkit-box;
+  //         // margin-bottom: 10px;
+  //       }
+  //     }
+  //   }
+  // }
 }
 </style>

@@ -56,7 +56,7 @@ header {
     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.05);
     display: flex;
     padding: 12px 20px;
-    background-color: white;
+    background-color: #F0F8E1;
   }
 
   .nav {
