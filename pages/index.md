@@ -126,4 +126,5 @@ notes:
 ---
 
 <!-- @layout-full-width -->
+<Home />
 <NewListNotes :notes="frontmatter.notes"/>

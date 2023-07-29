@@ -90,7 +90,6 @@ const link = computed(() => {
   }
   return i
 })
-console.log(frontmatter);
 
 </script>
 <template>
@@ -110,9 +109,10 @@ console.log(frontmatter);
     </template>
     <article ref="content" id="article_content">
       <slot />
-      <div>
-        <div class="side">
-        </div>
+      <div v-if="route.path !== '/'" class="prose go-back slide-enter">
+        <router-link :to="link || '/'" class="font-mono no-underline hover:opacity-75">
+          cd ..
+        </router-link>
       </div>
     </article>
     <!-- class="slide-enter" -->
@@ -145,15 +145,9 @@ console.log(frontmatter);
 #view_side::-webkit-scrollbar-track,
 #view_side::-webkit-scrollbar-corner {
   background: #eaecef;
-  /* background-image: linear-gradient(-225deg, #69EACB 0%, #EACCF8 48%, #6654F1 100%); */
 }
 
 #view_side::-webkit-scrollbar-thumb {
-  /* background-image: linear-gradient(45deg, #30cfd0 0%, #330867 100%); */
-  /* background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%); */
-  /* background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%); */
-  /* background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%); */
-  /* background-image: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%); */
   background-image: linear-gradient(-225deg, #69EACB 0%, #EACCF8 48%, #6654F1 100%);
 }
 
@@ -164,6 +158,12 @@ console.log(frontmatter);
   border-radius: 5px;
   padding: 10px;
   direction: ltr;
+}
+
+.go-back {
+  box-sizing: border-box;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 .table-of-contents ul {
@@ -226,6 +226,8 @@ console.log(frontmatter);
       color: #999;
     }
   }
+
+
 }
 </style>
 <!-- ---

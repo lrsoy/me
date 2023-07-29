@@ -50,7 +50,7 @@ function getGroupName(p: Frontmatter) {
         '--enter-stage': idx - 2,
         '--enter-step': '60ms',
       }">
-        <span text-8em color-transparent absolute left--3rem top--2rem font-bold text-stroke-2 text-stroke-hex-aaa op10>{{
+        <span text-8em color-transparent absolute left--3rem top--2rem font-bold text-stroke-2 op50 class="time_bt">{{
           getGroupName(route) }}</span>
       </div>
       <div class="slide-enter" :style="{
@@ -67,7 +67,7 @@ function getGroupName(p: Frontmatter) {
           " class="item block font-normal mb-6 mt-2 no-underline">
           <li class="no-underline" flex="~ col md:row gap-2 md:items-center">
             <div class="title text-lg leading-1.2em">
-              <span align-middle>{{ route.title }}</span>
+              <span align-middle class="current_title">{{ route.title }}</span>
             </div>
             <div class="time opacity-50 text-sm">
               <span>{{ formatDate(route.date as string) }}</span>
@@ -82,6 +82,12 @@ function getGroupName(p: Frontmatter) {
 
 <style  lang="scss">
 .ListPosts {
+  .current_title {}
+
+  .time_bt {
+    color: #DEE8C2;
+  }
+
   .title {
     overflow: hidden;
     white-space: nowrap;
