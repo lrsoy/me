@@ -43,7 +43,7 @@ const sortList = computed(() => notes.map((m: notesItem) => {
 
 </script>
 <template>
-  <div class="NewListNotes features">
+  <div class="NewListNotes features slide-enter">
     <!-- <div class="item" v-for="(item, index) in sortList" :key="index">
       <article>
         <div class="entry-media">
