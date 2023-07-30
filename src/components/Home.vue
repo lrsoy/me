@@ -4,10 +4,10 @@
 </script>
 <template>
   <div class="home-container">
-    <div class="P-top-card">
+    <div class="P-top-card" v-for="item in 3">
       <div class="P-top-icon-wrap">
         <!-- 封面 -->
-        <img src="/image/sf.png" />
+        <img src="/image/html.jpg" />
       </div>
       <div class="P-content-wrap">
         <div class="tag"><span>精品歌单</span></div>
@@ -19,7 +19,7 @@
           PBR&B发源于21世纪00年代末期，大约在2008、2009年。在当代R&B逐渐没落的时候，这种新型的R&B音乐形式就应运而生了。 本歌单PBR&B/Soul/city pop
         </div>
       </div>
-      <img src="/image/sf.png" class="P-top-card-bg" />
+      <img src="/image/html.jpg" class="P-top-card-bg" />
       <div class="P-top-card-bg-mask"></div>
     </div>
   </div>
@@ -27,8 +27,11 @@
 
 <style lang="scss">
 .home-container {
-  width: 960px;
+  width: 100%;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
 
   .P-top-card {
     position: relative;
