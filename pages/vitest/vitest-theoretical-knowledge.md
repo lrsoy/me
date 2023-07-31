@@ -1,6 +1,6 @@
 ---
-  title: 前端测试框架 Vitest 基础理论知识（实践）
-  display: 前端测试框架 Vitest 基础理论知识（实践）
+  title: 前端测试框架 Vitest 基础理论知识（认识）
+  display: 前端测试框架 Vitest 基础理论知识（认识）
   image: /image/banner1.jpg
   description: 
   subtitle: 
@@ -35,17 +35,27 @@
 
 **Vitest** 是一个由**Vite**提供支持的极速单元测试框架，虽然它是由Vite支持的单元测试框架，但是在使用的时候并不是说一定要创建`Vite项目`,如果是webpack 项目或者是其他的项目，都可以使用，和测试没关系，在vitest内部自己就调用，也不需要依赖项目的环境
 
-```shell
+<CodeGroup>
+
+  <CodeGroupItem title="install pnpm" active>
+
+```bash
 # 安装 Vitest
 pnpm add -D vitest
 ```
 
-* 文件命名
+  </CodeGroupItem>
 
-```shell
+  <CodeGroupItem title="file name">
+
+```bash
 # 例 - 功能名/要测试文件名 + spec + js/ts
 todo.spec.ts
 ```
+
+  </CodeGroupItem>
+
+</CodeGroup>
 
 ### 1.3 第一个单测例子
 
@@ -67,11 +77,13 @@ test("第一个测试例子",() =>{ // 要执行的测试代码
 
 * 运行单元测试，自己就会去寻找匹配的文件，然后运行
 
-```shell
+```bash
+# 直接运行全部测试
 npx vitest
+
+# 指定文件运行测试
+npx vitest run doc.spec.ts
 ```
-
-
 
 ## 二、常用的单测API
 
@@ -81,15 +93,28 @@ npx vitest
 
 * **it** 来自于 `BDD`，BDD意思的是`行为驱动开发`，他来自于`TDD`，在TDD之上的延伸和扩展而来，BDD要求开发人员，按照 `it should xxx xxx` 来描述测试行为
 
+
+* **test**来自于`Jest`，Jest 认为 test 可读性更高
+
+<CodeGroup>
+
+  <CodeGroupItem title="IT" active>
+
 ```ts
 it('should',() => {})
 ```
 
-* **test**来自于`Jest`，Jest 认为 test 可读性更高
+  </CodeGroupItem>
+
+ <CodeGroupItem title="TEST">
 
 ```ts
 test('should',() => {})
 ```
+
+</CodeGroupItem>
+
+</CodeGroup>
 
 ### 2.2 describe 
 

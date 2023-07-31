@@ -21,19 +21,31 @@
 
 # 程序的间接输入
 
-
-
 ## 一、调用其他模块导出的函数
 
-**调用其他模块导出的函数获得数据或通过异步api获得到的数据**，并且参加当前函数进行计算。
+`调用其他模块导出的函数获得数据` 或`通过异步api获得到的数据`，并且参加当前函数进行计算。
 
 例如：
+
+<CodeGroup>
+
+  <CodeGroupItem title="index.ts" active>
+
+```ts
+import {numsA,numsB} from 'config.ts'
+export const sum =()=> {
+    return numsA() * 2
+}
+```
+
+  </CodeGroupItem>
+
+  <CodeGroupItem title="config.ts" >
 
 ```ts
 export const numsA =()=> {
     return 10
 }
-
 export const numsB =()=> {
     return new Promise((res,rej) =>{
         setTimeout(() =>{
@@ -43,14 +55,9 @@ export const numsB =()=> {
 } 
 ```
 
-```ts
-import {numsA,numsB} from 'nums.js'
-export const sum =()=> {
-    return numsA() * 2
-}
-```
+  </CodeGroupItem>
 
-
+</CodeGroup>
 
 上面的例子可以看到，调用`sum` 里面的`numA`就属于间接输入
 
@@ -60,55 +67,82 @@ export const sum =()=> {
 
 定义：
 
-用于替换真实的逻辑实现，也就是说，调用函数获取数据，间接的获取数据的时候，这个数据很有可能来自**后端提供的接口里面的数据**，因为接口提供的数据是变化的，接口数据变了就会导致测试的结果不通过，就要去手动的去更改**验证的结果**，也有可能这个数据来自本都存储。
+* 用于替换真实的逻辑实现，也就是说，调用函数获取数据，间接的获取数据的时候，这个数据很有可能来自**后端提供的接口里面的数据**，因为接口提供的数据是变化的，接口数据变了就会导致测试的结果不通过，就要去手动的去更改**验证的结果**，也有可能这个数据来自本都存储。
 
 使用： 
 
-**vi.mock**第一个参数，供的 `path，文件路径` 替换所有导入的模块为另一个模块，第二个接受的参数是**工程函数**，这个函数可以是异步的，在工厂函数里面给对应的值，然后去完成测试，这样避免**间接接入的数据影响到测试结果**
+* **vi.mock**第一个参数，供的 `path，文件路径` 替换所有导入的模块为另一个模块，第二个接受的参数是**工程函数**，这个函数可以是异步的，在工厂函数里面给对应的值，然后去完成测试，这样避免**间接接入的数据影响到测试结果**
 
 需要了解的是，vi.mock 是有提升的，也就是说无论这个写在测试文件的那个位置，最终他都会被提升到代码的最前面。
 
 * 多个测试可以共用一个vi.mock
 
-```ts
-// function.spec.js
-import { it, expect, describe, vi } from 'vitest'
-import { sum } from './index'
+<CodeGroup>
 
-vi.mock('./function', () => {
+  <CodeGroupItem title="index.spec.ts" active>
+
+```ts
+import { it, expect, vi } from 'vitest'
+import { addition, multiplication } from './index'
+
+vi.mock('./config', () => {
   return {
-    num1: () => 10
+    increment: () => 3
   }
 })
-describe("间接输入", () => {
-  it("vi.mock 第一种方式", () => {
-    // 准备数据
-    // 调用
-    const n = sum()
-    // 验证
-    expect(n).toBe(20)
-  })
+it('共同使用一个mock 加法', () => {
+  // 准备数据
+  // 调用
+  const n = addition()
+  // 验证
+  expect(n).toBe(4)
 })
 
-// function.js
-export const num1 = () => {
-  return 10
+it('共同使用一个mock 减法', () => {
+  // 准备数据
+  // 调用
+  const n = multiplication()
+  // 验证
+  expect(n).toBe(6)
+})
+```
+
+  </CodeGroupItem>
+
+ <CodeGroupItem  title="index.ts">
+
+```ts
+import { increment } from './config'
+
+// 加法
+export const addition = () => {
+  return increment() + 1
 }
 
-export const num2 = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      return resolve(10)
-    }, 0)
-  })
-}
-// index.js
-import { num1 } from "./function"
 
-export const sum = () => {
-  return num1() * 2
+// 乘法
+export const multiplication = () => {
+  return increment() * 2
 }
 ```
+
+ </CodeGroupItem>
+
+<CodeGroupItem  title="config.ts">
+
+```ts
+export const increment = (): number => 2 
+```
+
+ </CodeGroupItem>
+
+</CodeGroup>
+
+
+
+![](/vitest/share-vi-mock.png)
+
+
 
 需要注意的是在使用**vi.mock**的时候，并不会在意过多的逻辑实现，比如说，一个方法里面有一堆逻辑去处理这个数据，在mock的时候，只关心方法返回值是什么、数据格式的等等，在mock的时候就写什么就行了。
 
@@ -117,20 +151,18 @@ export const sum = () => {
 ```ts
 // function.spec.js
 import { it, expect, describe, vi } from 'vitest'
-import { sum } from './index'
+import { addition } from './index'
 // 不共用mock需要将要改变的函数导入进来
-import { num1 } from './function'
-import 
-vi.mock('./function')
-
+import { increment } from './config'
+vi.mock('./config')
 describe("间接输入", () => {
   it("vi.mock 不公用一个vi.mock", () => {
     // 准备数据: 不共用mock 第一个参数即将被改变的函数名 通过mockReturnValue赋值
-    vi.mocked(num1).mockReturnValue(10)
+    vi.mocked(increment).mockReturnValue(10)
     // 调用
-    const n = sum()
+    const n = addition()
     // 验证
-    expect(n).toBe(20)
+    expect(n).toBe(11)
   })
 })
 ```
@@ -145,22 +177,22 @@ vi.doMock 和 vi.mock在使用方法是相同的，vi.doMock可以让测试与�
 describe("间接输入", () => {
   it.only('vi.doMock', async () => {
     // 准备数据
-    vi.doMock('./function', () => {
+    vi.doMock('./config', () => {
       return {
-        num1: () => 2
+        increment: () => 2
       }
     })
 	// 下一次模块导入
-    const { sum } = await import('./index')
+    const { addition } = await import('./index')
     //调用
-    const n = sum()
+    const n = addition()
     // 验证
-    expect(n).toBe(4)
+    expect(n).toBe(3)
   })
 })
 ```
 
-注：在编写测试的时候，doMock在js里面会出现问题，就是无法提前调用import，mock不能进行替换，所以可以贤尝试在ts里面去编写
+注：在编写测试的时候，doMock在js里面会出现问题，就是无法提前调用import，mock不能进行替换，所以可以先尝试在ts里面去编写
 
 
 
@@ -170,10 +202,12 @@ describe("间接输入", () => {
 
 在真实开发过程中，**axios **算是使用最频繁的一个第三方库了，还有一些例如**lodash、dayjs**等等，这些都是第三方的工具库，以axios为例，演示如何测试第三方工具库，其他工具库在具体使用时根据具体情况进行测试。
 
-```ts
-// thirdpartylibrary.ts
-import axios from 'axios'
+<CodeGroup>
 
+  <CodeGroupItem title="thirdpartylibrary.ts" active>
+
+```ts
+import axios from 'axios'
 export const questSentences = async () => {
   const res = await axios({
     method: 'get',
@@ -184,11 +218,13 @@ export const questSentences = async () => {
   }
   return false
 }
-
 ```
 
+ </CodeGroupItem>
+
+<CodeGroupItem title="thirdpartylibrary.spec.ts" >
+
 ```ts
-// thirdpartylibrary.spec.ts
 import { describe, it, expect, vi } from 'vitest'
 import { questSentences } from '../src/thirdpartylibrary'
 import axios from 'axios'
@@ -210,10 +246,19 @@ describe('第三方库测试', () => {
 })
 ```
 
+ </CodeGroupItem>
+
+</CodeGroup>
+
+![](/vitest/Indirect-input-third-party-api-axios.png)
+
 在实际开发中可能针对一些网络请求的工具库进行二次封装`axios` 在测试的时候如下
 
+<CodeGroup>
+
+  <CodeGroupItem title="request.ts" active>
+
 ```ts
-// 例：request.ts
 export default class Axios {
     constructor(){...}
     _interceptors(){...}
@@ -225,8 +270,11 @@ export default class Axios {
 export const instance = new Axios
 ```
 
+   </CodeGroupItem>
+
+   <CodeGroupItem title="*.spec.ts" active>
+
 ```ts
-// *.spec.ts
 import { describe, it, expect, vi } from 'vitest'
 import { instance } from './request'
 
@@ -244,12 +292,19 @@ describe('第三方库测试', () => {
 })
 ```
 
+   </CodeGroupItem>
+
+</CodeGroup>
+
 ### 2.2 对象
 
-测对象，一般测试从两方面进行测试，对象的属性以及对象的方法，当一个函数在使用某一个对象里面的**属性或方法**如何通过`vitest`进行测试，例：
+测对象，一般测试从两方面进行测试，对象的属性以及对象的方法，当一个函数在使用某一个对象里面的**属性或方法**，如何通过`vitest`进行测试，例：
+
+<CodeGroup>
+
+  <CodeGroupItem title="obj.ts" active>
 
 ```ts
-// obj.ts
 export const obj = {
   name: '小明',
   status: false,
@@ -268,8 +323,11 @@ export const objFuncTest = () => {
 }
 ```
 
+   </CodeGroupItem>
+
+  <CodeGroupItem title="obj.spec.ts" >
+
 ```ts
-// obj.spec.ts
 import { describe, it, vi, expect } from 'vitest'
 import { objKeyTest, obj, objFuncTest } from '../src/obj'
 // 测试在方法里面用获取对象里面值的时候，如果测试对象的属性以及方法
@@ -297,14 +355,21 @@ describe("对象", () => {
 })
 ```
 
+   </CodeGroupItem>
+
+</CodeGroup>
+
 测试对象属性以及对象方法时，直接对其进行更改即可，没什么需要注意的地方，注意的是在更改时直接赋值结果，不考虑逻辑实现。
 
 ### 2.3 class
 
 在测试class的时候，需要测试的是**类的属性以及类的方法**，需要注意的是，当类里面方法涉及到参数时，需要在new class的时候传递参数，需要遵从**最小数据原则**，去优化传参问题
 
+<CodeGroup>
+
+  <CodeGroupItem title="class.ts" active>
+
 ```ts
-// class.ts
 import { User } from './config'
 export const testClassAttribute = () => {
   const user = new User()
@@ -318,8 +383,11 @@ export const testClassFunc = () => {
 }
 ```
 
+</CodeGroupItem>
+
+ <CodeGroupItem title="config.ts" >
+
 ```ts
-// config.ts
 export class User {
   age: number = 18
   name: string = '小明'
@@ -329,8 +397,11 @@ export class User {
 }
 ```
 
+</CodeGroupItem>
+
+<CodeGroupItem title="class.spec.ts" >
+
 ```ts
-// class.spec.ts
 import { describe, it, expect, vi } from 'vitest'
 import { User } from '~/config'
 import { testClassAttribute, testClassFunc } from '~/class'
@@ -381,9 +452,21 @@ describe('class 类', () => {
 })
 ```
 
+
+
+</CodeGroupItem>
+
+</CodeGroup>
+
+
+
 在测试class的时候避免要测试的数据和使用数据的方法存放在一个文件里，由于vi.mock的底层问题，如果放在一起，会导致测试结果是不通过的，所以在测试的时候需要分开存放，为什么要这样(待补充......)
 
 错误示范
+
+<CodeGroup>
+
+  <CodeGroupItem title="user.ts" active>
 
 ```ts
 // user.ts ： 当testClassAttribute 要使用的数据和他存在一个文件内
@@ -398,8 +481,11 @@ export const testClassAttribute = () => {
 }
 ```
 
+</CodeGroupItem>
+
+<CodeGroupItem title="user.spec.ts" >
+
 ```ts
-// user.spec.ts
 import { describe, it, expect, vi } from 'vitest'
 import { testClassAttribute } from '~/user'
 
@@ -422,30 +508,21 @@ describe('class 类', () => {
 })
 ```
 
+</CodeGroupItem>
+
+</CodeGroup>
+
 测试结果
 
 ![](/public/vitest/914038464f7f7c6173ae38db64e2872.png)
 
 ### 2.4 常量
 
-```ts
-// variable.ts
-import { age, name } from './config'
+<CodeGroup>
 
-export const variableTest = () => {
-  return name + '是一个测试框架'
-}
-
-```
+  <CodeGroupItem title="variable.spec.ts" active>
 
 ```ts
-// config.ts
-export const name = 'test'
-export const age = 18
-```
-
-```ts
-// variable.spec.ts
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { variableTest } from '~/variable'
 
@@ -492,23 +569,43 @@ describe('常量', () => {
 })
 ```
 
+</CodeGroupItem>
+
+  <CodeGroupItem title="variable.ts" >
+
+```ts
+import { age, name } from './config'
+
+export const variableTest = () => {
+  return name + '是一个测试框架'
+}
+
+```
+
+</CodeGroupItem>
+
+  <CodeGroupItem title="config.ts" >
+
+```ts
+export const name = 'test'
+export const age = 18
+```
+
+</CodeGroupItem>
+
+</CodeGroup>
+
+
+
 在测试常量的时候需要值得注意的两个点
 
 一般情况下，这些常量会被放在一个文件内进行管理，当在测试某一个常量的时候，通常会在测试准备数据阶段将这个数据通过**vi.mock**进行替换，注意此时我们只测试一个常量，此时我在实现逻辑的时候，我需要了另一个常量，这时我们的测试是不通过的，原因就是在mock的时候，我只对上一个数据做了mock，mock在替换数据的时候是只保留写的常量，其他常量是没有被返回的，所以导致测试失败
 
+<CodeGroup>
+
+  <CodeGroupItem title="variable.spec.ts" active>
+
 ```ts
-// 问题：
-- config.ts
-export const name = 'test'
-export const age = 18
-
-- variable.ts
-export const variableTest = () => {
-  console.log(age) // 会报错
-  return name + '是一个测试框架'
-}
-
-- variable.spec.ts
 vi.mock("~/config", async (importOriginal) => {
     return {
         name: 'vitest'
@@ -521,6 +618,30 @@ describe('常量', () => {
   })
 })
 ```
+
+</CodeGroupItem>
+
+  <CodeGroupItem title="variable.ts" >
+
+```ts
+export const variableTest = () => {
+  console.log(age) // 会报错
+  return name + '是一个测试框架'
+}
+```
+
+</CodeGroupItem>
+
+  <CodeGroupItem title="config.ts" >
+
+```ts
+export const name = 'test'
+export const age = 18
+```
+
+</CodeGroupItem>
+
+</CodeGroup>
 
 ![](/public/vitest/c9d1a30235569f6dcad2e89f5886979.png)
 
@@ -552,15 +673,21 @@ vi.mock("~/config", async (importOriginal) => {
 
 * nodejs环境变量
 
+<CodeGroup>
+
+  <CodeGroupItem title="env.ts" active>
+
 ```ts
-// env.ts
 export const testNodeEnv = () => {
   return Number(process.env.USER_AGE) * 2
 }
 ```
 
+</CodeGroupItem>
+
+  <CodeGroupItem title="env.spec.ts" >
+
 ```ts
-// env.spec.ts
 import { describe, expect, it, vi, afterEach } from 'vitest'
 import { testNodeEnv } from './env'
 /**
@@ -596,6 +723,10 @@ it('测试nodejs环境变量 02 方式二', () => {
 })
 ```
 
+</CodeGroupItem>
+
+</CodeGroup>
+
 测试nodejs环境变量的第二种方式是经常使用到的，并且他是可以将环境变量恢复到原有值的
 
 ![](/public/vitest/616909c1a6e7be318f54e8e99b1a156.png)
@@ -604,15 +735,21 @@ it('测试nodejs环境变量 02 方式二', () => {
 
 * vite&webpack
 
+<CodeGroup>
+
+  <CodeGroupItem title="vite.ts" active>
+
 ```ts
-// vite.ts
 export const testViteEnv = () => {
   return Number(import.meta.env.VITE_USER_AGE) * 2
 }
 ```
 
+</CodeGroupItem>
+
+  <CodeGroupItem title="vite.spec.ts" >
+
 ```ts
-// vite.spec.ts
 import { describe, it, vi, expect, afterEach } from 'vitest'
 import { testViteEnv } from './vite'
 
@@ -633,9 +770,11 @@ it("测试import.meta.env", () => {
   expect(r).toBe(8)
 
 })
-
-
 ```
+
+</CodeGroupItem>
+
+</CodeGroup>
 
 需要注意的就是，在不同项目中配置环境变量，命名也是有所不同的，但是获取环境变量的方式一般是：
 
@@ -666,15 +805,21 @@ Vite 项目：
 
 全局变量，例如挂载到window上的都属于全局属性，在任何地方代码里都是可以，当测试的时候可以通过vitest提供的api去测试
 
+<CodeGroup>
+
+  <CodeGroupItem title="global.ts" active>
+
 ```ts
-// global.ts
 export const testGlobalApi = () => {
   return innerHeight * 2
 }
 ```
 
+</CodeGroupItem>
+
+  <CodeGroupItem title="global.spec.ts" >
+
 ```ts
-// global.spec.ts
 import { describe, it, vi, expect } from 'vitest'
 import { testGlobalApi } from './global'
 
@@ -689,11 +834,15 @@ it('测试全局 api 例：window innerHeight', () => {
 })
 ```
 
+</CodeGroupItem>
+
+</CodeGroup>
+
 通过使用**vi.stubGlobal**对全局属性进行修改，然后修改后可以通过**unstubAllGlobals**恢复原有的值
 
 ### 3.3 间接输入层
 
-
+间接层处理技巧就是将难测的代码抽离出去，通过`函数`或者`对象`的方式进行包裹，然后通过`vi.mock`或者是其他的方式来代替这块难测的逻辑。
 
 ## 四、依赖注入
 
@@ -762,8 +911,11 @@ readAndProcessFile('./test', files)
 
 * 使用中间层的方式，由于函数处理的逻辑是依赖于间接输入的，也就是**fs模块**，将这部分的代码抽离出去，通过mock的方式进行测试
 
+<CodeGroup>
+
+  <CodeGroupItem title="file.ts" active>
+
 ```ts
-// file.ts
 import { interlayer } from './config'
 
 // 不解决耦合问题
@@ -773,16 +925,22 @@ export function readAndProcessFilePt(filePath: string) {
 }
 ```
 
+</CodeGroupItem>
+
+  <CodeGroupItem title="config.ts" >
+
 ```ts
-// config.ts
 import { readFileSync } from 'fs'
 export const interlayer = (filePath: string) => {
   return readFileSync(filePath, { encoding: 'utf-8' })
 }
 ```
 
+</CodeGroupItem>
+
+  <CodeGroupItem title="file.spec.ts" >
+
 ```ts
-// file.spec.ts
 import { describe, it, vi, expect } from 'vitest'
 import { readAndProcessFilePt } from './file'
 vi.mock('./config', () => {
@@ -801,10 +959,17 @@ it("依赖注入, 不解决耦合", () => {
 })
 ```
 
+</CodeGroupItem>
+
+</CodeGroup>
+
 * 不使用中间层
 
+<CodeGroup>
+
+  <CodeGroupItem title="file.ts" active>
+
 ```ts
-// file.ts
 import { readFileSync } from 'fs'
 // 不使用中间层 直接通过mock进行测试
 export function readAndProcessFileMock(filePath: string) {
@@ -813,8 +978,11 @@ export function readAndProcessFileMock(filePath: string) {
 }
 ```
 
+</CodeGroupItem>
+
+  <CodeGroupItem title=" file.spec.ts" >
+
 ```ts
-// file.spec.ts
 import { describe, it, vi, expect } from 'vitest'
 import { readAndProcessFileMock } from './file'
 import * as fs from 'fs'
@@ -835,46 +1003,281 @@ it.only('依赖注入，直接使用mock进行测试', () => {
 })
 ```
 
-### 5.2 依赖倒置原则解决程序间接输入(class&function)
+</CodeGroupItem>
+
+</CodeGroup>
+
+### 5.2 依赖倒置原则解决程序间接输入(function)
+
+<CodeGroup>
+
+  <CodeGroupItem title="file.ts" active>
 
 ```ts
-// file.ts
 import { Fileint } from './type'
 // 解决耦合 加入接口限制
 export function readAndProcessFileCabInterface(filePath: string, cab: Fileint) {
-  const content: string = cab.read(filePath)
-
-  return content + "=> test unit"
+   const content: string = cab.read(filePath)
+   return content + "=> test unit"
 }
 ```
 
+</CodeGroupItem>
+
+<CodeGroupItem title="index.ts" >
+
 ```ts
-// type.ts
+import { readAndProcessFileCab, readAndProcessFileCabInterface } from './file'
+import { readFileSync } from 'fs'
+import { Fileint } from './type'
+import path from 'path'
+
+export class FileReaderInterface implements Fileint {
+  read(filePath: string) {
+    return readFileSync(filePath, { encoding: 'utf-8' })
+  }
+}
+const fri = new FileReaderInterface()
+readAndProcessFileCabInterface(filePath, fri)
+```
+
+</CodeGroupItem>
+
+<CodeGroupItem title="type.ts" >
+
+```ts
+export interface Fileint {
+   read(filePath: string): string;
+}
+```
+
+</CodeGroupItem>
+
+<CodeGroupItem title="file.spec.ts" >
+
+```ts
+import { describe, it, vi, expect } from 'vitest'
+import { readAndProcessFileCabInterface } from './file'
+import { Fileint } from './type'
+it('依赖注入，依赖倒置原则', () => {
+   // 准备数据
+   class FileReader implements Fileint {
+     read(filePath: string) {
+       return 'fri'
+     }
+   }
+   // 调用
+   const r = readAndProcessFileCabInterface('./test', new FileReader())
+   // 验证
+   expect(r).toBe('fri=> test unit')
+})
+```
+
+
+
+</CodeGroupItem>
+
+</CodeGroup>
+
+
+
+### 5.3 class如何去使用依赖倒置原则
+
+在测试class的时候，有三种方式可以对它进行测试分别是：
+
+* 构造函数
+* 属性
+* 方法
+
+#### 5.3.1 通过构造函数的方式
+
+通过构造器将这个依赖以参数的形式传进来
+
+<CodeGroup>
+
+  <CodeGroupItem title="classFile.spec.ts" active>
+
+```ts
+import { vi, expect, it } from 'vitest'
+import { ReadAndProcessFile } from './classFile'
+import { Fileint } from './type'
+
+it('通过构造函数', () => {
+  // 准备数据
+  class FileRender implements Fileint {
+    read(filePath: string): string {
+      return 'cs'
+    }
+  }
+  // 调用
+  const file = new ReadAndProcessFile(new FileRender())
+
+  // 验证
+  expect(file.run('./test')).toBe('cs=> test unit')
+
+})
+```
+
+</CodeGroupItem>
+
+  <CodeGroupItem title="classFile.ts" >
+
+```ts
+import { readFileSync } from 'fs'
+import { Fileint } from './type'
+// 通过构造器将这个依赖传进来
+export class ReadAndProcessFile {
+  private _fileRender: Fileint
+  constructor(fileRender: Fileint) {
+    this._fileRender = fileRender
+  }
+  run(filePath: string) {
+    const content: string = this._fileRender.read(filePath)
+    return content + "=> test unit"
+  }
+}
+```
+
+</CodeGroupItem>
+
+  <CodeGroupItem title="type.ts" >
+
+```ts
 export interface Fileint {
   read(filePath: string): string;
 }
 ```
 
-```ts
-// file.spec.ts
-import { describe, it, vi, expect } from 'vitest'
-import { readAndProcessFileCabInterface } from './file'
-import { Fileint } from './type'
-it('依赖注入，依赖倒置原则', () => {
+</CodeGroupItem>
 
+</CodeGroup>
+
+![](/vitest/Dependency-injection-class-constructor.png)
+
+#### 5.3.2 通过属性的方式
+
+通过给class设置`set`方法的形式
+
+<CodeGroup>
+
+  <CodeGroupItem title="classFile.spec.ts" active>
+
+```ts
+import { vi, expect, it } from 'vitest'
+import {  ReadAndProcessFileAttribute } from './classFile'
+import { Fileint } from './type'
+
+it.only("通过属性的方式", () => {
   // 准备数据
-  class FileReader implements Fileint {
-    read(filePath: string) {
-      return 'fri'
+  class FileRender implements Fileint {
+    read(filePath: string): string {
+      return 'cv'
     }
   }
+
   // 调用
-  const r = readAndProcessFileCabInterface('./test', new FileReader())
-
+  const file = new ReadAndProcessFileAttribute()
+  // 属性直接赋值
+  file.fileRender = new FileRender()
   // 验证
-  expect(r).toBe('fri=> test unit')
-})
 
+  expect(file.run('./test')).toBe('cv=> test unit')
+})
 ```
 
-## 5.3 class如何去使用依赖倒置原则
+</CodeGroupItem>
+
+<CodeGroupItem title="classFile.ts" >
+
+```ts
+export class ReadAndProcessFileAttribute {
+  private _fileRender: any
+  run(filePath: string) {
+    const content: string = this._fileRender.read(filePath)
+    return content + "=> test unit"
+  }
+  set fileRender(fileRender: Fileint) {
+    this._fileRender = fileRender
+  }
+}
+```
+
+</CodeGroupItem>
+
+<CodeGroupItem title="type.ts" >
+
+```ts
+export interface Fileint {
+  read(filePath: string): string;
+}
+```
+
+</CodeGroupItem>
+
+</CodeGroup>
+
+![](/vitest/Dependency-injection-class-attribute.png)
+
+#### 5.3.3 通过方法的方式
+
+通过方法的方式和设置属性的方式类似
+
+<CodeGroup>
+
+  <CodeGroupItem title="classFile.spec.ts" active>
+
+```ts
+import { vi, expect, it } from 'vitest'
+import { ReadAndProcessFileFun } from './classFile'
+import { Fileint } from './type'
+it.only('通过方法的方式', () => {
+  // 准备数据
+  class FileRender implements Fileint {
+    read(filePath: string): string {
+      return 'cb'
+    }
+  }
+
+  // 调用
+  const file = new ReadAndProcessFileFun()
+  // 调用方法 
+  file.setFileRender(new FileRender())
+  // 验证
+  expect(file.run('./test')).toBe('cb=> test unit')
+
+})
+```
+
+</CodeGroupItem>
+
+<CodeGroupItem title="classFile.ts" >
+
+```ts
+export class ReadAndProcessFileFun {
+  private _fileRender: any
+  run(filePath: string) {
+    const content: string = this._fileRender.read(filePath)
+    return content + "=> test unit"
+  }
+
+  setFileRender(fileRender: Fileint) {
+    this._fileRender = fileRender
+  }
+}
+```
+
+</CodeGroupItem>
+
+<CodeGroupItem title="type.ts" >
+
+```ts
+export interface Fileint {
+  read(filePath: string): string;
+}
+```
+
+</CodeGroupItem>
+
+</CodeGroup>
+
+![](/vitest/Dependency-injection-class-function.png)

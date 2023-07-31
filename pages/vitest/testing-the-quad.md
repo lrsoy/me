@@ -162,9 +162,12 @@ describe('隐式'，() => {
 
 例：
 
+<CodeGroup>
+
+  <CodeGroupItem title="index.js" active>
+
 ```ts
-// index.ts
-class User(){
+export class User(){
     constructor(name,age,content) {
         this.name = name
         this.age = age
@@ -174,9 +177,15 @@ class User(){
         return `用户全称${this.name}`
     }
 }
+```
 
-// index.spec.ts
+  </CodeGroupItem>
+
+  <CodeGroupItem title="index.spec.ts">
+
+```ts
 import { describe,it,expect } from 'vitest'
+import { User } from './index.ts'
 describe("zx",() => {
     it("最小数据原则",() =>{
         const user = new User('小明',10,'其他不相干的数据')
@@ -186,7 +195,11 @@ describe("zx",() => {
 })
 ```
 
-可以看到splicing方法只是需要一个name的参数，但是在写测试的时候，还要将age传递过去，也就是说在测试某一个功能的时候，有一些函数是不需要用到所有参数的，在测试的时候，也就没有必要给他传递。
+  </CodeGroupItem>
+
+</CodeGroup>
+
+可以看到splicing方法只是需要一个name的参数，但是在写测试的时候，还要将`age`传递过去，也就是说在测试某一个功能的时候，有一些函数是不需要用到所有参数的，在测试的时候，也就没有必要给他传递。
 
 
 
