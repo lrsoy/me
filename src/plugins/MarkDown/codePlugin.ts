@@ -72,7 +72,11 @@ const codePlugin: PluginWithOptions<CodePluginOptions> = (md, { highlightLines =
         .join('');
       result = `${result}<div class="line-numbers" aria-hidden="true">${lineNumbersCode}</div>`;
     }
-    result = `<div class="${languageClass} ext-${language.ext}${useLineNumbers ? ' line-numbers-mode' : ''}">${result}</div>`;
+    // 代码快复制相关代码， 向当前元素内插入一个button 此按钮用于复制当前代码块
+    const lang = extractLang(info)
+    const CopyCodeBtn = `<button title="Copy Code" class="copy"></button>`
+    result = `<div class="${languageClass} ext-${language.ext}${useLineNumbers ? ' line-numbers-mode' : ''}">${CopyCodeBtn}${result}</div>`;
+
     return result;
   };
 
@@ -83,6 +87,7 @@ const codePlugin: PluginWithOptions<CodePluginOptions> = (md, { highlightLines =
         const token = tokens[idx];
         const lang = token.info ? md.utils.escapeHtml(token.info).trim() : '';
         const code = md.utils.escapeHtml(token.content);
+
         return `<code class="${options.langPrefix}${lang}">${code}</code>`;
       };
       // md.renderer.rules.code_inline = (tokens, idx, options, env, slf) => {
@@ -92,5 +97,14 @@ const codePlugin: PluginWithOptions<CodePluginOptions> = (md, { highlightLines =
     }
   }
 };
+
+function extractLang(info: string) {
+  return info
+    .trim()
+    .replace(/:(no-)?line-numbers({| |$).*/, '')
+    .replace(/(-vue|{| ).*$/, '')
+    .replace(/^vue-html$/, 'template')
+}
+
 
 export default codePlugin

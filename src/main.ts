@@ -22,6 +22,10 @@ import LocalizedFormat from 'dayjs/plugin/localizedFormat.js'
 import App from './App.vue'
 import aos from 'aos'
 import { Badge, CodeGroup, CodeGroupItem } from '~/components/global/index'
+
+// copy code plugin
+import { useCopyCode } from '~/hooks'
+
 aos.init()
 const routes = autoRoutes.map((i) => {
   return {
@@ -48,6 +52,7 @@ export const createApp = ViteSSG(
     app.component('Badge', Badge)
     app.component('CodeGroup', CodeGroup)
     app.component('CodeGroupItem', CodeGroupItem)
+    useCopyCode()
     if (isClient) {
       router.beforeEach(() => { NProgress.start() })
       router.afterEach(() => { NProgress.done() })
