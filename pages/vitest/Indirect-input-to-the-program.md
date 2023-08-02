@@ -196,6 +196,74 @@ describe("间接输入", () => {
 
 
 
+解决：
+
+当`vi.doMock`在js里面使用的时候会出现无法提前调用导入的问题，通过`issues`得到了答案
+
+![](/vitest/20230802164016.png)
+
+
+
+Vitest 自动删除 TypeScript 文件中未使用的导入，因此您的示例在 ts 文件中可以正常工作。
+
+模块被缓存，因此下次导入会返回已评估的结果。 vi.doMock 会清除指定模块的缓存，但不会清除导入它的模块的缓存，您需要自己调用` vi.resetModules `来清除缓存：
+
+<CodeGroup>
+
+  <CodeGroupItem title="increment.spec.js" active>
+
+```js
+import { it, expect, describe, vi, beforeEach } from 'vitest';
+import { ride } from './index';
+
+describe('间接输入', () => {
+  beforeEach(() => {
+    // 清除缓存
+    vi.resetModules();
+  });
+  it('vi.doMock', async () => {
+    // 准备数据
+    vi.doMock('./increment.js', () => ({ increment: () => 100 }));
+    const { ride } = await import('./index');
+    //调用
+    const n = ride();
+    // 验证
+    expect(n).toBe(200);
+  });
+});
+
+```
+
+ </CodeGroupItem>
+
+<CodeGroupItem title="increment.js" >
+
+```ts
+export const increment = () => {
+  return 10
+}
+```
+
+ </CodeGroupItem>
+
+<CodeGroupItem title="index.js" >
+
+```ts
+import { increment } from "./increment"
+
+export const ride = () => {
+  return increment() * 2
+}
+```
+
+ </CodeGroupItem>
+
+</CodeGroup>
+
+
+
+
+
 ## 二、第三方库、对象、class、常量
 
 ### 2.1 第三方库（例：axios）
