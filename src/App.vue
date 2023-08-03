@@ -10,6 +10,7 @@
   <main>
     <router-view />
   </main> -->
+
   <footer>
     <div class="copyright">
       <a href="/" target="_blank">LauYing</a>&copy; 2023 made by love

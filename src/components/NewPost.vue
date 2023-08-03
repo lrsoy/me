@@ -19,8 +19,16 @@ const viewSide = ref<HTMLDivElement>()
 onMounted(() => {
   const navigate = () => {
     if (location.hash) {
-      document.querySelector(decodeURIComponent(location.hash))
-        ?.scrollIntoView({ behavior: 'smooth' })
+      const el = document.querySelector(decodeURIComponent(location.hash))
+      if (el) {
+        const rect = el.getBoundingClientRect()
+        const y = window.scrollY + rect.top - 64
+        window.scrollTo({
+          top: y,
+          behavior: 'smooth',
+        })
+        return true
+      }
     }
   }
 
@@ -60,8 +68,10 @@ onMounted(() => {
   useEventListener(window, 'hashchange', navigate)
   useEventListener(content.value!, 'click', handleAnchors, { passive: false })
 
-  navigate()
-  setTimeout(navigate, 500)
+  setTimeout(() => {
+    if (!navigate())
+      setTimeout(navigate, 1000)
+  }, 1)
 })
 
 
