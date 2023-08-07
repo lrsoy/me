@@ -82,8 +82,10 @@ const getArr = () =>{
 
 1. class：在类里面如果属性是私有，需要通过方法将其暴露出去，这样既可以对外开放接口方便测试，又不会将私有属性暴露出去，即使在之后更改私有属性的时候，只要暴露给外面相关获取方法，其内部无论怎么变化都不回影响到测试
 
+<CodeGroup>
+  <CodeGroupItem title="interior.ts" active>
+
 ```ts
-// interior.ts
 export class Interior {
   private count: number;
   constructor() {
@@ -97,8 +99,11 @@ export class Interior {
     return this.count
   }
 }
-
 ```
+
+  </CodeGroupItem>
+
+<CodeGroupItem title="interior.spec.ts" >
 
 ```ts
 import { describe, expect, it, vi } from 'vitest'
@@ -113,10 +118,16 @@ it("class 私有属性", () => {
 })
 ```
 
+  </CodeGroupItem>
+
+</CodeGroup>
+
 2. 函数的方式：经常使用
 
+<CodeGroup>
+  <CodeGroupItem title="interior.ts" active>
+
 ```ts
-// interior.ts
 // 函数方式
 const arr: any[] = []
 export const addItem = (name: string) => {
@@ -141,8 +152,11 @@ export const reset = () => {
 }
 ```
 
+  </CodeGroupItem>
+
+<CodeGroupItem title="interior.spec.ts" >
+
 ```ts
-// interior.spec.ts
 import { describe, expect, it, vi } from 'vitest'
 import { getArr, getCount, addCount, reset } from './interior'
 
@@ -165,10 +179,16 @@ describe("全局变量", () => {
 })
 ```
 
+  </CodeGroupItem>
+
+</CodeGroup>
+
 ### 1.2 状态存在其他里面,不直接存在当前系统里
 
+<CodeGroup>
+  <CodeGroupItem title="doc.ts" active>
+
 ```ts
-// doc.ts  
 import { Databases, } from './config'
 // UserService 方法就是一个状态机
 export class UserService {
@@ -183,8 +203,11 @@ export class UserService {
 }
 ```
 
+  </CodeGroupItem>
+
+  <CodeGroupItem title="config.ts" >
+
 ```ts
-// config.ts
 interface User {
   id: number,
   name: string
@@ -201,8 +224,11 @@ export class Databases {
 }
 ```
 
+  </CodeGroupItem>
+
+  <CodeGroupItem title="doc.spec.ts" >
+
 ```ts
-// doc.spec.ts
 import { describe, expect, it, vi } from 'vitest'
 import { Databases } from './config'
 import { UserService } from './doc'
@@ -221,7 +247,9 @@ it("状态存在于依赖中", () => {
 })
 ```
 
+  </CodeGroupItem>
 
+</CodeGroup>
 
 ## 行为验证
 
@@ -231,8 +259,10 @@ it("状态存在于依赖中", () => {
 
 行为验证背后的逻辑：状态的改变是由交互引起的，如果所有的交互(调用)都正确，那就可以推断最终的状态也不会错。
 
+<CodeGroup>
+  <CodeGroupItem title="behavior.ts" active>
+
 ```ts
-// behavior.ts
 import { Databases } from './config'
 export class UserService {
   constructor(private databases: Databases) { }
@@ -245,8 +275,11 @@ export class UserService {
 }
 ```
 
+  </CodeGroupItem>
+
+  <CodeGroupItem title="config.ts" >
+
 ```ts
-// config.ts
 interface User {}
 export class Databases {
   private database: User[] = []
@@ -254,6 +287,10 @@ export class Databases {
   getDatabase(id: number): User | undefined {}
 }
 ```
+
+ </CodeGroupItem>
+
+</CodeGroup>
 
 当前例子里面，在做测试的时候不在去验证`Databases`里面database的结果，而是去验证`databases.addUser`是否按照预期去完成交互
 
@@ -297,33 +334,21 @@ export class Databases {
 
    例如：
 
-   ```ts
-   // 验证对象方法是否被调用：以上面class为例子 UserService
-   import { vi, it, expect } from 'vitest'
-
-   it("验证函数/方法有没有按照预期调用",() =>{
-       const databases = new Databases()
-       
-       // 方式一：创建一个模拟（mock）收集函数相关信息
-       vi.spyOn(databases, 'addUser')
-       // 方式二：vi.fn() 创建函数模拟（mock）依然可以记录信息
-       Databases.prototype.addUser = vi.fn()
-       
-       const userService = new UserService(databases)
-       userService.createUser('ctr')
-     	expect(databases.addUser).toBeCalled()
-   })
-   ```
+   <CodeGroup>
+     <CodeGroupItem title="第三方API lodashConfig.ts" active>
 
    ```ts
-   // 验证第三方API lodashConfig.ts
    import { difference } from 'lodash'
    export const arrDifference = (arr1: Array<number>, arr2: Array<number>) => {
      difference(arr1, arr2)
    }
    ```
+
+    </CodeGroupItem>
+
+     <CodeGroupItem title="lodashConfig.spec.ts" >
+
    ```ts
-   // behavior.spec.ts
    import { describe, it, vi, expect } from 'vitest'
    import { arrDifference } from './lodashConfig'
    import { difference } from 'lodash'
@@ -345,7 +370,27 @@ export class Databases {
    })
    ```
 
-   ​
+    </CodeGroupItem>
+
+   </CodeGroup>
+
+   ```ts
+   // 验证对象方法是否被调用：以上面class为例子 UserService
+   import { vi, it, expect } from 'vitest'
+
+   it("验证函数/方法有没有按照预期调用",() =>{
+       const databases = new Databases()
+       
+       // 方式一：创建一个模拟（mock）收集函数相关信息
+       vi.spyOn(databases, 'addUser')
+       // 方式二：vi.fn() 创建函数模拟（mock）依然可以记录信息
+       Databases.prototype.addUser = vi.fn()
+       
+       const userService = new UserService(databases)
+       userService.createUser('ctr')
+     	expect(databases.addUser).toBeCalled()
+   })
+   ```
 
 3. `Stub存根`：
 
@@ -353,16 +398,21 @@ export class Databases {
 
    例如：
 
+   <CodeGroup>
+     <CodeGroupItem title="global.ts" active>
+
    ```ts
    // 替代全局API 直接对innerHeight 进行赋值
-   // global.ts
    export const testGlobalApi = () => {
      return innerHeight * 2
    }
    ```
 
+   </CodeGroupItem>
+
+   <CodeGroupItem title="global.spec.ts" >
+
    ```ts
-   // global.spec.ts
    import { describe, it, vi, expect } from 'vitest'
    import { testGlobalApi } from './global'
    it('测试全局 api 例：window innerHeight', () => {
@@ -375,6 +425,10 @@ export class Databases {
      // 拆卸
    })
    ```
+
+   </CodeGroupItem>
+
+   </CodeGroup>
 
    stub不仅仅可以使用stubGlobal这样的API去替代，不同场景使用不同的方式，选择合理方式即可
 
