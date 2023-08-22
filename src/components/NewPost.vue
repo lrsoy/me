@@ -75,23 +75,6 @@ onMounted(() => {
 })
 
 
-// 通过路由获取最新发布的文章
-const routes: Frontmatter[] = router.getRoutes()
-  .map(i => {
-    const frontmatter = i.meta.frontmatter as any;
-    return { ...i, meta: { ...i.meta, frontmatter } }
-  })
-  .sort((a, b) => +new Date(b.meta.frontmatter.date) - +new Date(a.meta.frontmatter.date))
-  .filter(f => f.meta.frontmatter?.toc)
-  .filter(i => !i.path.endsWith('.html') && i.meta.frontmatter.type)
-  .slice(0, 9)
-  .map(m => {
-    return {
-      path: m.path,
-      ...m.meta.frontmatter
-    }
-  })
-
 const link = computed(() => {
   const i = route.path.split('/').slice(0, -1).join('/')
   const isHas = router.getRoutes().some(s => s.path === route.path)
