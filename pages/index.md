@@ -123,6 +123,11 @@ notes:
     icon: 'i-vscode-icons-file-type-vscode'
     image: '/image/sf.png'
     type: 'vscode-plugin'
+  - name: 'Electron'
+    link: '/electron'
+    desc: 'electron 桌面端应用'
+    icon: 'i-vscode-icons-file-type-vscode'
+    image: '/image/sf.png'
 ---
 
 <!-- @layout-full-width -->
