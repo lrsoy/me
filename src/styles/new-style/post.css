@@ -249,18 +249,18 @@
   margin-top: 0;
 }
 
-.prose thead th:first-child {
+/* .prose thead th:first-child {
   padding-left: 0;
-}
-.prose thead th:last-child {
+} */
+/* .prose thead th:last-child {
   padding-right: 0;
-}
-.prose tbody td:first-child {
+} */
+/* .prose tbody td:first-child {
   padding-left: 0;
 }
 .prose tbody td:last-child {
   padding-right: 0;
-}
+} */
 .prose > :first-child {
   margin-top: 0;
 }
