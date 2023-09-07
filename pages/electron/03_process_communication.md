@@ -283,3 +283,173 @@ window.ed.editContent((val) => {
 
 #### 双向通信
 
+使用`ipcRenderer.invoke`与`ipcMain.handle`进行双向通信
+
+例子：渲染进程点击按钮，向主进程发送事件，并且通过ElectronAPI 完成文件上传并且将文件地址返回给渲染进程并且赋值给输入框。
+
+<CodeGroup>
+
+  <CodeGroupItem title="主进程main.js" active>
+
+```js {23-26}
+const { BrowserWindow, app, ipcMain, dialog } = require('electron')
+const path = require('path')
+
+const createWin = () => {
+  const win = new BrowserWindow({
+    width: 600,
+    height: 300,
+    x: 100,
+    y: 700,
+    alwaysOnTop: true,
+    // 指定预加载脚本
+    webPreferences: {
+      preload: path.resolve(__dirname, 'Preload.js')
+    }
+  })
+  // 打开控制台
+  win.webContents.openDevTools()
+  win.loadFile(path.join(__dirname, 'index.html'))
+}
+
+app.whenReady().then(() => {
+  createWin()
+  ipcMain.handle('upLoad', async (event) => {
+    const { filePaths } = await dialog.showOpenDialog({})
+    return filePaths[0]
+  })
+})
+
+```
+
+</CodeGroupItem>
+
+ <CodeGroupItem title="预加载脚本Preload.js" >
+
+```js {1-7}
+const { ipcRenderer, contextBridge } = require("electron");
+contextBridge.exposeInMainWorld('upLoad', {
+  fileOnLoad: async (cab) => {
+    const filepath = await ipcRenderer.invoke('upLoad')
+    cab(filepath)
+  }
+})
+```
+
+</CodeGroupItem>
+
+  <CodeGroupItem title="渲染进程器render.js" >
+
+```js {1-9}
+window.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('upload')
+  btn.addEventListener('click', () => {
+    window.upLoad.fileOnLoad((filePath) => {
+      const ipt = document.querySelector('input')
+      ipt.value = filePath
+    })
+  })
+})
+```
+
+</CodeGroupItem>
+
+</CodeGroup>
+
+
+
+**渲染器进程向主进程传递参数**
+
+例子：通过窗口输入内容，传递给主进程并且将窗口标题更改。
+
+<CodeGroup>
+
+  <CodeGroupItem title="主进程main.js" active>
+
+```js {23-26}
+const { BrowserWindow, app, ipcMain, dialog } = require('electron')
+const path = require('path')
+
+const createWin = () => {
+  const win = new BrowserWindow({
+    width: 600,
+    height: 300,
+    x: 100,
+    y: 700,
+    alwaysOnTop: true,
+    // 指定预加载脚本
+    webPreferences: {
+      preload: path.resolve(__dirname, 'Preload.js')
+    }
+  })
+  // 打开控制台
+  win.webContents.openDevTools()
+  win.loadFile(path.join(__dirname, 'index.html'))
+}
+
+app.whenReady().then(() => {
+  createWin()
+  ipcMain.on('editTitle', (event, value) => {
+    // 修改窗口信息
+    BrowserWindow.fromWebContents(event.sender).title = value
+  })
+})
+```
+
+</CodeGroupItem>
+
+ <CodeGroupItem title="预加载脚本Preload.js" >
+
+```js {1-6}
+const { ipcRenderer, contextBridge } = require("electron");
+contextBridge.exposeInMainWorld('api', {
+  editTitle: (title) => {
+    ipcRenderer.send('editTitle', title)
+  }
+})
+```
+
+</CodeGroupItem>
+
+  <CodeGroupItem title="渲染进程器render.js" >
+
+```js {5}
+window.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('btn')
+  btn.addEventListener('click', () => {
+    const title = document.querySelector('input').value
+    window.api.editTitle(title)
+  })
+})
+```
+
+</CodeGroupItem>
+
+<CodeGroupItem title="index.html" >
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+  <title>lrsoy</title>
+</head>
+
+<body>
+  <input type="text" />
+  <button id="btn">更改窗口标题</button>
+  <script src="render.js"></script>
+</body>
+
+</html>
+```
+
+</CodeGroupItem>
+
+</CodeGroup>
+
+
+
+![](/electron/07_20230907141406.png)
